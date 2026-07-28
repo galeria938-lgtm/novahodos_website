@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { site } from '@data/site';
+const faqs = [
+  ['Is AMI available now?', 'Yes. AMI is available on Google Play. You can start a 14-day free trial to see your signal — not to promise miracles.'],
+  ['Do I need labs?', 'You can start with your current context and recalibrate later when labs are available.'],
+  ['What if I break a fast?', 'AMI recalculates your route and turns the next decision into the new point of control. No punishment — understanding drives adherence.'],
+  ['What does the coach do?', 'It translates your route and metrics into practical daily guidance. You set the pace; AMI navigates.'],
+  ['Navigation or Precision Calibration?', 'Navigation ($19) focuses on daily route. Precision Calibration ($49) adds deeper lab-informed observability. Both include a 14-day free trial. Navigate, calibrate, navigate again.'],
+  ['What happens to my data?', 'AMI explains storage, restoration, consent, and deletion in the app and on /privacy. AMI is not a medical device and does not diagnose or treat disease.']
+];
+---
+<BaseLayout title="FAQ" description="Frequently asked questions about AMI and NOVAHODOS.">
+  <section class="section hero compact-hero"><p class="eyebrow">FAQ</p><h1>Simple questions. Clear answers.</h1><p class="lede">AMI is an honest metabolic navigation system: signals, trajectory, your pace.</p></section>
+  <section class="section stack">{faqs.map(([q, a]) => <article class="card"><h2>{q}</h2><p>{a}</p></article>)}</section>
+  <section class="section card highlight"><p class="eyebrow">Next step</p><h2>See your signal for 14 days.</h2><div class="actions"><a class="button" href={site.playStoreUrl} target="_blank" rel="noopener">Start 14-day free trial</a></div></section>
+</BaseLayout>

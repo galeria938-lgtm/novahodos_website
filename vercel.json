@@ -1,0 +1,7 @@
+{
+  "redirects": [
+    { "source": "/", "destination": "/es/ami", "permanent": false },
+    { "source": "/es", "destination": "/es/ami", "permanent": false },
+    { "source": "/es/", "destination": "/es/ami", "permanent": false }
+  ]
+}

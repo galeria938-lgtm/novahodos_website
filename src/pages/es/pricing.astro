@@ -1,0 +1,18 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { site } from '@data/site';
+---
+<BaseLayout title="Precios" description="Precios de AMI para Navigation y Precision Calibration. Prueba gratis de 14 días en ambos planes." lang="es">
+  <section class="section hero compact-hero">
+    <p class="eyebrow">Precios</p>
+    <h1>Navegación metabólica, desde $19.</h1>
+    <p class="lede">AMI convierte señales metabólicas en decisiones diarias claras. Empieza con Navigation y usa Precision Calibration cuando datos más profundos puedan afinar la ruta. Ambos planes incluyen 14 días gratis.</p>
+    <div class="actions"><a class="button" href={site.playStoreUrl} target="_blank" rel="noopener">Iniciar 14 días gratis</a><a class="button secondary" href="/es/ami/experience">Ver AMI en acción</a></div>
+  </section>
+  <section class="section grid two">
+    <article class="card highlight"><p class="eyebrow">AMI Navigation</p><h2>$19 / mes</h2><p>Soporte diario de decisión metabólica para ventanas de ayuno, señales, coach y continuidad de ruta.</p><div class="compare"><div class="compare-row"><div>Ideal para</div><div>Dirección diaria y constancia.</div></div><div class="compare-row"><div>Incluye</div><div>Coach, ruta de ayuno, métricas diarias y estado de ruta.</div></div><div class="compare-row"><div>Prueba</div><div>14 días gratis.</div></div><div class="compare-row"><div>Laboratorios</div><div>Pueden informar la ruta mientras Precision Calibration organiza la observabilidad profunda.</div></div></div></article>
+    <article class="card blue-card"><p class="eyebrow">AMI Precision Calibration</p><h2>$49 / mes</h2><p>Observabilidad más profunda cuando importan laboratorios, ratios, recalibración longitudinal y revisión de precisión.</p><div class="compare"><div class="compare-row"><div>Ideal para</div><div>Ajuste fino con datos más profundos.</div></div><div class="compare-row"><div>Incluye</div><div>Laboratorios, ratios, tendencias, contexto de calibración y dashboards de precisión.</div></div><div class="compare-row"><div>Prueba</div><div>14 días gratis.</div></div><div class="compare-row"><div>Ciclo</div><div>Úsala cuando importa y vuelve a Navigation con una ruta más precisa.</div></div></div></article>
+  </section>
+  <section class="section card highlight"><p class="eyebrow">El ciclo AMI</p><h2>Navega. Calibra. Vuelve a navegar.</h2><p>La mayoría de los días necesitan una decisión siguiente más clara. Nuevos datos afinan la ruta cuando importa. Cuando aparecen nuevos laboratorios o una pregunta más profunda, Precision Calibration afina la ruta. Luego Navigation mantiene viva la ruta.</p><div class="cycle"><span>Navigation</span><strong>-></strong><span>Precision Calibration</span><strong>-></strong><span>Navigation más precisa</span></div></section>
+  <section class="section grid"><article class="card"><p class="eyebrow">Ciclo de decisión</p><h2>Dos modos, un sistema.</h2><p>Navigation y Precision Calibration son estados dentro del mismo ciclo de ingeniería de decisión metabólica.</p></article><article class="card"><p class="eyebrow">Transparente</p><h2>Empieza simple.</h2><p>Empieza con soporte diario de ruta. Calibra cuando la precisión adicional sea útil.</p></article><article class="card"><p class="eyebrow">Límites</p><h2>Ingeniería para navegación metabólica.</h2><p>AMI apoya navegación metabólica y optimización personal con límites claros de bienestar; no diagnostica, previene, trata ni cura enfermedades.</p></article></section>
+</BaseLayout>

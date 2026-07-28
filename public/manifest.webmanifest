@@ -1,0 +1,10 @@
+{
+  "name": "NOVAHODOS",
+  "short_name": "NOVAHODOS",
+  "description": "Adaptive systems for human optimization.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#071311",
+  "theme_color": "#071311",
+  "icons": []
+}

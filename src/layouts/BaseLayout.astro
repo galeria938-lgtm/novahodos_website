@@ -1,0 +1,136 @@
+---
+import { copy, footerItems, navItems, site, type Locale } from '@data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  canonical?: string;
+  lang?: Locale;
+}
+
+const { title, description = site.description, canonical = Astro.url.pathname, lang = 'en' } = Astro.props;
+const t = copy[lang];
+const pageTitle = title === site.name ? site.name : `${title} | ${site.name}`;
+const canonicalUrl = new URL(canonical, site.url).toString();
+const alternatePath = lang === 'en' ? `/es${Astro.url.pathname === '/' ? '' : Astro.url.pathname}` : (Astro.url.pathname.replace(/^\/es/, '') || '/');
+const alternateUrl = new URL(alternatePath, site.url).toString();
+const path = Astro.url.pathname;
+const englishHref = lang === 'en' ? path : (path.replace(/^\/es/, '') || '/');
+const spanishHref = lang === 'es' ? path : (path === '/' ? '/es' : '/es' + path);
+const localizeHref = (href: string) => lang === 'es' ? (href === '/' ? '/es' : `/es${href}`) : href;
+const playStoreUrl = site.playStoreUrl;
+const headerCtaHref = playStoreUrl;
+const headerCtaLabel = t.nav.cta;
+const visibleNavItems = navItems;
+---
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang={lang} href={canonicalUrl} />
+    <link rel="alternate" hreflang={lang === 'en' ? 'es' : 'en'} href={alternateUrl} />
+    <link rel="alternate" hreflang="x-default" href={new URL('/', site.url).toString()} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={site.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#071311" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'Organization', name: site.name, url: site.url, email: site.email.contact, brand: { '@type': 'Brand', name: site.productFullName } })} />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={localizeHref('/')} aria-label="NOVAHODOS home">NOVAHODOS</a>
+      <nav aria-label="Primary navigation">
+        {visibleNavItems.map((item) => <a href={localizeHref(item.href)}>{t.nav[item.key]}</a>)}
+      </nav>
+      <div class="header-actions">
+        <div class="language-switch" aria-label="Language selector"><a class:list={["lang-option", { active: lang === "es" }]} href={spanishHref}>Español</a><a class:list={["lang-option", { active: lang === "en" }]} href={englishHref}>English</a></div>
+        <a class="header-cta" href={headerCtaHref} target="_blank" rel="noopener">{headerCtaLabel}</a>
+      </div>
+    </header>
+    <main><slot /></main>
+    <footer class="site-footer">
+      <div><strong>NOVAHODOS</strong><p>{t.footer.note}</p></div>
+      <nav aria-label="Footer navigation">{footerItems.map((item) => <a href={localizeHref(item.href)}>{t.footer[item.key]}</a>)}</nav>
+      <small>© NOVAHODOS</small>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  :root { color-scheme: dark; --bg: #071311; --panel: rgba(255,255,255,0.06); --text: #f5f7f6; --muted: #a8b7b1; --line: rgba(255,255,255,0.12); --green: #32d583; --blue: #5cc8ff; --shadow: rgba(0,0,0,0.42); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: radial-gradient(circle at 20% 0%, rgba(50,213,131,0.15), transparent 32rem), radial-gradient(circle at 80% 8%, rgba(92,200,255,0.10), transparent 34rem), linear-gradient(180deg, var(--bg), #040807 78%); color: var(--text); }
+  a { color: inherit; text-decoration: none; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+  main { min-height: 70vh; }
+  .site-header, .site-footer, .section { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+  .site-header { display: flex; align-items: center; justify-content: space-between; gap: 22px; padding: 24px 0; position: sticky; top: 0; z-index: 10; backdrop-filter: blur(18px); }
+  .brand { font-size: 1.05rem; font-weight: 900; letter-spacing: 0.08em; }
+  .site-header nav, .site-footer nav { display: flex; flex-wrap: wrap; gap: 18px; color: var(--muted); font-size: 0.94rem; }
+  .site-header nav a:hover, .site-footer nav a:hover { color: var(--text); }
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+  .language-switch { min-height: 42px; border: 1px solid rgba(92,200,255,0.28); border-radius: 999px; display: inline-flex; align-items: center; padding: 3px; gap: 3px; background: linear-gradient(135deg, rgba(92,200,255,0.12), rgba(50,213,131,0.10)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 32px rgba(0,0,0,0.18); }
+  .lang-option { min-height: 34px; padding: 0 12px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); font-weight: 900; font-size: 0.82rem; letter-spacing: 0.01em; }
+  .lang-option.active { color: #03110d; background: var(--green); }
+  .header-cta, .button { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; min-height: 44px; padding: 0 20px; background: var(--green); color: #03110d; font-weight: 850; box-shadow: 0 14px 40px rgba(50,213,131,0.18); }
+  .button.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); box-shadow: none; }
+  .email-link { color: var(--green); font-weight: 850; overflow-wrap: anywhere; }
+  .section { padding: 72px 0; }
+  .hero { padding-top: 104px; padding-bottom: 92px; }
+  .compact-hero { padding-top: 84px; padding-bottom: 56px; }
+  .eyebrow { color: var(--green); text-transform: uppercase; font-weight: 900; letter-spacing: 0.14em; font-size: 0.76rem; }
+  .blue { color: var(--blue); }
+  h1, h2, h3, p { margin-top: 0; }
+  h1 { font-size: clamp(3rem, 8vw, 6.6rem); line-height: 0.94; letter-spacing: 0; max-width: 980px; margin-bottom: 24px; }
+  h2 { font-size: clamp(2rem, 4vw, 3.35rem); line-height: 1; letter-spacing: 0; margin-bottom: 20px; }
+  h3 { font-size: 1.18rem; line-height: 1.15; }
+  p { color: var(--muted); line-height: 1.65; font-size: 1.04rem; }
+  .lede { font-size: clamp(1.15rem, 2vw, 1.45rem); max-width: 770px; }
+  .how-hero h1 { font-size: clamp(2.2rem, 5.4vw, 4.4rem); line-height: 1.02; max-width: 920px; }
+  .ami-product-hero h1 { font-size: clamp(2.15rem, 5vw, 4.15rem); line-height: 1.03; max-width: 900px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .card { border: 1px solid var(--line); background: linear-gradient(145deg, var(--panel), rgba(255,255,255,0.025)); border-radius: 8px; padding: 26px; min-height: 180px; box-shadow: 0 20px 60px var(--shadow); }
+  .card.highlight { border-color: rgba(50, 213, 131, 0.44); background: linear-gradient(145deg, rgba(50,213,131,0.13), rgba(255,255,255,0.03)); }
+  .card.blue-card { border-color: rgba(92,200,255,0.36); background: linear-gradient(145deg, rgba(92,200,255,0.11), rgba(255,255,255,0.03)); }
+  .split { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 18px; align-items: stretch; }
+  .stack { display: grid; gap: 18px; }
+  .compare { display: grid; gap: 10px; }
+  .compare-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .compare-row > div { border: 1px solid var(--line); border-radius: 8px; padding: 16px; background: rgba(255,255,255,0.04); }
+  .cycle { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 24px 0; }
+  .cycle span { border: 1px solid rgba(50,213,131,0.38); background: rgba(50,213,131,0.10); border-radius: 999px; padding: 12px 16px; color: var(--text); font-weight: 850; }
+  .cycle strong { color: var(--blue); }
+  .cycle.vertical { align-items: stretch; max-width: 620px; }
+  .cycle.vertical span { min-width: 180px; text-align: center; }
+  .product-shot { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.28); box-shadow: 0 22px 70px rgba(0,0,0,0.38); }
+  .product-shot picture { display: block; }
+  .product-shot img { display: block; width: 100%; height: auto; filter: saturate(1.08) contrast(1.05); }
+  .mini-shot { height: 190px; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: rgba(0,0,0,0.28); margin-bottom: 20px; }
+  .mini-shot picture, .mini-shot img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+  .metric-list { display: grid; gap: 10px; margin-top: 18px; }
+  .metric-list span { display: block; border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; background: rgba(0,0,0,0.16); color: var(--text); font-weight: 800; }
+  .deep-tabs { border: 1px solid var(--line); border-radius: 8px; background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)); padding: 18px; box-shadow: 0 20px 60px var(--shadow); }
+  .tab-input { position: absolute; opacity: 0; pointer-events: none; }
+  .tab-labels { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+  .tab-labels label { cursor: pointer; border: 1px solid var(--line); border-radius: 999px; padding: 11px 15px; color: var(--muted); font-weight: 850; background: rgba(255,255,255,0.035); }
+  .tab-labels label:hover { color: var(--text); border-color: rgba(50,213,131,0.42); }
+  .tab-panel { display: none; border: 1px solid var(--line); border-radius: 8px; padding: 24px; background: rgba(0,0,0,0.16); min-height: 230px; }
+  #deep-science:checked ~ .tab-labels label[for="deep-science"], #deep-n1:checked ~ .tab-labels label[for="deep-n1"], #deep-plans:checked ~ .tab-labels label[for="deep-plans"], #deep-privacy:checked ~ .tab-labels label[for="deep-privacy"], #deep-science-es:checked ~ .tab-labels label[for="deep-science-es"], #deep-n1-es:checked ~ .tab-labels label[for="deep-n1-es"], #deep-plans-es:checked ~ .tab-labels label[for="deep-plans-es"], #deep-privacy-es:checked ~ .tab-labels label[for="deep-privacy-es"] { color: #03110d; background: var(--green); border-color: var(--green); }
+  #deep-science:checked ~ .tab-panels .science, #deep-n1:checked ~ .tab-panels .n1, #deep-plans:checked ~ .tab-panels .plans, #deep-privacy:checked ~ .tab-panels .privacy, #deep-science-es:checked ~ .tab-panels .science, #deep-n1-es:checked ~ .tab-panels .n1, #deep-plans-es:checked ~ .tab-panels .plans, #deep-privacy-es:checked ~ .tab-panels .privacy { display: block; }
+  .site-footer { border-top: 1px solid var(--line); padding: 36px 0 48px; display: grid; gap: 22px; }
+  .site-footer p { max-width: 760px; margin-bottom: 8px; }
+  @media (max-width: 900px) { .site-header { align-items: flex-start; flex-direction: column; position: static; gap: 12px; padding: 16px 0; } .site-header nav { width: 100%; flex-wrap: nowrap; overflow-x: auto; gap: 10px; padding-bottom: 4px; scrollbar-width: none; } .site-header nav::-webkit-scrollbar { display: none; } .site-header nav a { flex: 0 0 auto; white-space: nowrap; border: 1px solid var(--line); border-radius: 999px; padding: 9px 12px; background: rgba(255,255,255,0.035); } .header-actions { width: 100%; } .header-cta { flex: 1; width: auto; min-height: 42px; padding: 0 14px; } .language-switch { flex: 0 0 auto; min-height: 42px; } .section { padding: 46px 0; } .hero, .compact-hero { padding-top: 44px; padding-bottom: 44px; } h1 { font-size: clamp(2.35rem, 11vw, 4rem); line-height: 0.98; } .how-hero h1 { font-size: clamp(2rem, 8.4vw, 3.05rem); line-height: 1.04; } .ami-product-hero h1 { font-size: clamp(1.95rem, 8vw, 3rem); line-height: 1.05; } h2 { font-size: clamp(1.65rem, 8vw, 2.35rem); } p { font-size: 1rem; } .grid, .grid.two, .split, .compare-row { grid-template-columns: 1fr; } .card { min-height: auto; padding: 22px; } .tab-panel { min-height: 0; padding: 20px; } .tab-labels { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; } .tab-labels::-webkit-scrollbar { display: none; } .tab-labels label { flex: 0 0 auto; white-space: nowrap; } .metric-list span { font-size: 0.95rem; } }
+</style>
+
+

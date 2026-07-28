@@ -1,0 +1,15 @@
+---
+interface Props {
+  name: string;
+  alt: string;
+  width: number;
+  height: number;
+  loading?: 'eager' | 'lazy';
+}
+
+const { name, alt, width, height, loading = 'lazy' } = Astro.props;
+---
+<picture>
+  <source srcset={`/product/${name}.webp`} type="image/webp" />
+  <img src={`/product/${name}.png`} alt={alt} width={width} height={height} loading={loading} decoding="async" />
+</picture>

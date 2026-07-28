@@ -1,0 +1,75 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ProductImage from '@components/ProductImage.astro';
+import { site } from '@data/site';
+---
+<BaseLayout title="Experiencia AMI" description="Presentación pública y segura de las capacidades de AMI." lang="es">
+  <section class="section hero">
+    <p class="eyebrow">Experiencia AMI</p>
+    <h1>Visualiza tu trayectoria. Tú marcas el ritmo.</h1>
+    <p class="lede">AMI usa modelos matemáticos y gráficos diseñados para visualizar tu trayectoria. Si cambian tus métricas o no cumples la ventana, recalcula la ruta. Cuando agregas labs, afina el contexto direccional — sin imponer un destino fijo.</p>
+    <div class="actions"><a class="button" href={site.playStoreUrl} target="_blank" rel="noopener">Iniciar 14 días gratis</a><a class="button secondary" href="/es/ami/science">Leer la ciencia</a></div>
+  </section>
+
+  <section class="section split">
+    <article class="product-shot"><ProductImage name="ami-map-safe" alt="Vista demo segura del mapa metabólico AMI" width={720} height={366} /></article>
+    <article class="card highlight">
+      <p class="eyebrow">Mapa metabólico</p>
+      <h2>¿Hacia dónde vas?</h2>
+      <p>El mapa muestra dirección: hacia dónde parece moverse la ruta y si el siguiente paso debe ser estable, más suave o más preciso.</p>
+      <div class="callout"><strong>Fortaleza</strong><span>Convierte métricas complejas en una ruta visual.</span></div>
+      <div class="callout"><strong>Nombre público</strong><span>Mapa metabólico.</span></div>
+    </article>
+  </section>
+
+  <section class="section split">
+    <article class="card blue-card">
+      <p class="eyebrow">Ventana adaptativa</p>
+      <h2>¿Por qué esta intensidad de ayuno hoy?</h2>
+      <p>Una buena ruta adapta intensidad. Si te sales de la ventana, AMI ajusta el camino y espera el próximo dato. Tú sigues siendo el capitán.</p>
+      <div class="callout"><strong>Fortaleza</strong><span>Una decisión clara con métricas organizadas.</span></div>
+      <div class="callout"><strong>Nombre público</strong><span>Ventana de ayuno adaptativa.</span></div>
+    </article>
+    <article class="product-shot"><ProductImage name="ami-window-safe" alt="Vista demo segura de la ventana de ayuno adaptativa AMI" width={720} height={985} /></article>
+  </section>
+
+  <section class="section split">
+    <article class="product-shot"><ProductImage name="ami-coach-safe" alt="Vista demo segura del coach AMI" width={720} height={843} /></article>
+    <article class="card">
+      <p class="eyebrow">Coach adaptativo</p>
+      <h2>¿Qué deberías hacer después?</h2>
+      <p>El coach convierte ruta, energía, sueño, hambre, ayuno y contexto en lenguaje práctico.</p>
+      <div class="callout"><strong>Fortaleza</strong><span>Hace que el sistema se sienta personal mientras se mantiene enfocado en guía metabólica práctica.</span></div>
+      <div class="callout"><strong>Nombre público</strong><span>Coach adaptativo.</span></div>
+    </article>
+  </section>
+
+  <section class="section split">
+    <article class="card highlight">
+      <p class="eyebrow">Calibración de precisión</p>
+      <h2>¿Qué cambia cuando calibras?</h2>
+      <p>Los labs opcionales pueden afinar la ruta agregando más contexto a la Calibración de Precisión.</p>
+      <div class="callout"><strong>Fortaleza</strong><span>Conecta comportamiento diario con métricas longitudinales.</span></div>
+      <div class="callout"><strong>Nombre público</strong><span>Calibración de precisión.</span></div>
+    </article>
+    <article class="product-shot"><ProductImage name="ami-labs-safe" alt="Vista demo segura de calibración AMI" width={720} height={851} /></article>
+  </section>
+
+  <section class="section card blue-card">
+    <p class="eyebrow">Caso de trayectoria 001</p>
+    <h2>AMI lee dirección a través de la trayectoria.</h2>
+    <p>Este ejemplo de ingeniería está anonimizado y usa solo días relativos. Muestra por qué AMI interpreta los labs como indicadores de trayectoria: contexto, momento, estado de ayuno y retests pueden cambiar la lectura.</p>
+    <div class="compare">
+      <div class="compare-row"><div>Día 0</div><div>Carga metabólica alta. AMI establece una ruta inicial.</div></div>
+      <div class="compare-row"><div>Día 6</div><div>Contexto de ayuno largo. AMI evita leer la foto como si fuera toda la historia.</div></div>
+      <div class="compare-row"><div>Día 126</div><div>Dirección más limpia. La ruta se vuelve más fácil de explicar.</div></div>
+      <div class="compare-row"><div>Día 152</div><div>Reto de retest. AMI recalibra la trayectoria y ajusta la lectura del camino.</div></div>
+    </div>
+  </section>
+
+  <section class="section grid">
+    <article class="card"><p class="eyebrow">Potencia</p><h2>Línea de calibración dentro de una ruta.</h2><p>AMI combina hábitos, ventanas de ayuno, métricas y labs opcionales en una sola ruta.</p></article>
+    <article class="card"><p class="eyebrow">Precisión</p><h2>Calibración cuando importa.</h2><p>El modo de precisión agrega observabilidad cuando el usuario tiene labs o quiere una revisión más profunda.</p></article>
+    <article class="card"><p class="eyebrow">Coach</p><h2>Siguiente paso con métricas.</h2><p>El coach traduce la ruta en una acción práctica para hoy.</p></article>
+  </section>
+</BaseLayout>

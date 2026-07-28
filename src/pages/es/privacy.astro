@@ -1,0 +1,113 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { site } from '@data/site';
+
+const deleteAccountUrl = 'https://ami-app-tan.vercel.app/eliminar-cuenta';
+const supportEmail = 'support@novahodos.com';
+---
+<BaseLayout
+  title="Privacidad"
+  description="Como AMI y NOVAHODOS manejan datos personales y cercanos a salud, retencion y eliminacion de cuenta."
+  lang="es"
+>
+  <section class="section hero compact-hero">
+    <p class="eyebrow">Privacidad</p>
+    <h1>Como AMI maneja tus datos.</h1>
+    <p class="lede">
+      AMI puede guardar datos en el navegador y, si creas cuenta o sincronizas, tambien en la base AMI para restauracion entre dispositivos.
+      Se usan solo para navegacion metabolica personal.
+    </p>
+    <div class="actions">
+      <a class="button" href="#delete-account">Eliminar cuenta</a>
+      <a class="button secondary" href="/es/legal">Resumen legal</a>
+    </div>
+  </section>
+
+  <section class="section stack">
+    <article id="data-collected" class="card">
+      <p class="eyebrow">Datos recopilados</p>
+      <h2>Que puede procesar AMI</h2>
+      <p>
+        AMI puede procesar: perfil (edad, sexo, peso, cintura, altura, objetivo), sesiones de ayuno, labs/biomarcadores que ingresas,
+        senales diarias, XP, plan activo y estado de sincronizacion.
+      </p>
+      <p>
+        Los laboratorios opcionales y senales cercanas a salud requieren consentimiento explicito y deben tratarse como datos personales sensibles.
+      </p>
+    </article>
+
+    <article id="how-we-use" class="card">
+      <p class="eyebrow">Uso</p>
+      <h2>Como usamos los datos</h2>
+      <p>
+        Tus datos sirven para navegacion metabolica: estimar ruta, coach diario, seguridad de ayuno y continuidad entre dispositivos.
+        No vendemos tus datos a terceros ni los usamos para publicidad de terceros.
+      </p>
+    </article>
+
+    <article id="sync" class="card">
+      <p class="eyebrow">Sincronizacion</p>
+      <h2>Cuenta y copias en el dispositivo</h2>
+      <p>
+        La cuenta permite restaurar datos. Si no sincronizas, el navegador puede seguir siendo la copia principal.
+      </p>
+    </article>
+
+    <article id="retention" class="card">
+      <p class="eyebrow">Retencion</p>
+      <h2>Cuanto tiempo se conservan</h2>
+      <p>
+        Mientras tu cuenta exista, conservamos los datos necesarios para tu trayectoria y facturacion.
+        Tras eliminar la cuenta, se borran correo, contrasena, datos clinicos identificables, sesiones, plan
+        y la copia local de este dispositivo.
+        Se conservan facturas por obligacion fiscal y, si aplica, datos clinicos sin identificar para investigacion, sin enlace contigo.
+      </p>
+    </article>
+
+    <article id="delete-account" class="card highlight">
+      <p class="eyebrow">Eliminar cuenta</p>
+      <h2>Eliminar tu cuenta y tus datos</h2>
+      <p>
+        Puedes eliminar tu cuenta AMI desde Ajustes dentro de la app, o en la web abierta sin instalar la app.
+        La eliminacion es inmediata y no se puede deshacer. Si tienes una suscripcion activa, se cancela en ese mismo momento.
+      </p>
+      <p>
+        Abre el flujo de eliminacion de AMI:
+        <a class="email-link" href={deleteAccountUrl}>{deleteAccountUrl}</a>
+      </p>
+      <p>
+        Ruta en ingles:
+        <a class="email-link" href="https://ami-app-tan.vercel.app/delete-account">https://ami-app-tan.vercel.app/delete-account</a>
+      </p>
+      <p>
+        Si perdiste el acceso por contrasena, escribe a
+        <a class="email-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+        desde el correo de tu cuenta y la eliminaremos en un plazo maximo de 30 dias.
+      </p>
+      <div class="actions">
+        <a class="button" href={deleteAccountUrl}>Ir a eliminar cuenta</a>
+      </div>
+    </article>
+
+    <article id="limits" class="card">
+      <p class="eyebrow">Limites</p>
+      <h2>Limite del producto</h2>
+      <p>
+        Esta beta no debe presentarse como plataforma regulada tipo dispositivo medico o sistema clinico certificado.
+        AMI no diagnostica, previene, trata, cura ni mitiga enfermedades.
+      </p>
+    </article>
+
+    <article id="contact" class="card">
+      <p class="eyebrow">Contacto</p>
+      <h2>Contacto de privacidad</h2>
+      <p>
+        Responsable: NOVAHODOS LLC.
+        Para consultas sobre privacidad o tus datos, escribe a
+        <a class="email-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+        o
+        <a class="email-link" href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

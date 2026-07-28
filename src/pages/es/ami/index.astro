@@ -1,0 +1,298 @@
+﻿---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const axioms = [
+  {
+    n: '01',
+    label: 'Problema',
+    quote: 'Tu metabolismo no responde a promesas. Responde a señales.',
+    note: 'No se prometen resultados: se muestra trayectoria. Cada señal es individual.',
+    tag: 'Trayectoria',
+  },
+  {
+    n: '02',
+    label: 'Honestidad',
+    quote: 'La credibilidad es el único activo que escala. La mentira es un acelerador que se agota.',
+    note: 'Cuando la señal es débil, AMI frena. Se muestra rango, no una cifra exacta.',
+    tag: 'CredibilityLayer',
+  },
+  {
+    n: '03',
+    label: 'Usuario',
+    quote: 'El castigo genera abandono. El entendimiento genera adherencia.',
+    note: 'Safety Gate protege. Coaching en lenguaje humano — sin culpa.',
+    tag: 'Safety Gate',
+  },
+  {
+    n: '04',
+    label: 'Tiempo',
+    quote: 'La dirección importa más que el tiempo.',
+    note: 'El progreso es cambio de rumbo — no horas acumuladas.',
+    tag: 'Dirección',
+  },
+  {
+    n: '05',
+    label: 'Competencia',
+    quote: 'No competimos con cronómetros. Competimos con confianza.',
+    note: 'Se compara calidad de señal y capacidad de navegación.',
+    tag: 'Confianza metabólica',
+  },
+  {
+    n: '06',
+    label: 'Escala',
+    quote: 'La honestidad escala porque no necesita mantenimiento.',
+    note: 'Seis capas congeladas. Pipeline que no se reordena.',
+    tag: 'Freeze · 6 capas',
+  },
+  {
+    n: '07',
+    label: 'Modelo circular',
+    quote: 'El usuario que confía no abandona. Cambia de intensidad. Y vuelve.',
+    note: 'Downgrade no es churn: Calibration ↔ Navigation.',
+    tag: 'Nav ↔ Cal',
+  },
+  {
+    n: '08',
+    label: 'Dinero',
+    quote: 'El dinero es combustible para llegar a más gente — no el objetivo del sistema.',
+    note: '$19 / $49, sin hardware. Trial de 14 días para ver señal, no para prometer.',
+    tag: 'Combustible',
+  },
+  {
+    n: '09',
+    label: 'Verdad',
+    quote: 'La verdad incomoda. Pero es la única que construye confianza.',
+    note: 'Autofagia/BioAge son estimaciones, no medición clínica.',
+    tag: 'Límites visibles',
+  },
+  {
+    n: '10',
+    label: 'Navegación',
+    quote: 'AMI navega. No impone. Tú decides el ritmo.',
+    note: 'Tú eres el capitán. AMI es el navegador.',
+    tag: 'AMI navega',
+  },
+];
+---
+<BaseLayout
+  title="AMI"
+  description="AMI es un sistema de navegación metabólica honesta que escucha señales, muestra trayectoria y respeta tu ritmo."
+  lang="es"
+>
+  <section class="section hero compact-hero ami-product-hero axioma-hero">
+    <p class="eyebrow">Producto AMI</p>
+    <h1>Tu metabolismo no responde a promesas.<br /><span class="accent">Responde a señales.</span></h1>
+    <p class="lede">Navegación metabólica honesta: trayectoria, ritmo tuyo, sin castigo.</p>
+    <div class="actions">
+      <a class="button" href="https://play.google.com/store/apps/details?id=com.novahodos.ami" target="_blank" rel="noopener">Iniciar 14 días gratis</a>
+      <a class="button secondary" href="#axiomas">Ver los axiomas</a>
+    </div>
+  </section>
+
+  <section class="section axioma-metrics" aria-label="Señales del sistema">
+    <div class="metric"><strong>11</strong><span>Axiomas del sistema</span></div>
+    <div class="metric"><strong>6</strong><span>Capas del motor</span></div>
+    <div class="metric"><strong>14</strong><span>Días para ver tu señal</span></div>
+    <div class="metric"><strong>0</strong><span>Hardware necesario</span></div>
+  </section>
+
+  <section class="section axiomas-block" id="axiomas">
+    <p class="eyebrow">Fundamentos</p>
+    <h2>Once verdades.<br />Cero promesas vacías.</h2>
+    <p class="axiomas-oneliner">AMI es un sistema de navegación metabólica honesta que escucha señales, muestra trayectoria, respeta el ritmo del usuario y escala porque la confianza no necesita mantenimiento.</p>
+    <div class="axioma-spine">
+      {axioms.map((item) => (
+        <article class="axioma-beat" data-axioma={item.n}>
+          <div class="axioma-index">{item.n}</div>
+          <div>
+            <div class="axioma-label">{item.label}</div>
+            <p class="axioma-quote">{item.quote}</p>
+            <p class="axioma-note">{item.note}</p>
+            <span class="axioma-tag">{item.tag}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="axioma-disclaimer">Autofagia y BioAge en AMI son estimaciones científicas basadas en señales — no mediciones clínicas.</p>
+  </section>
+
+  <section class="section card blue-card">
+    <p class="eyebrow">Ciclo de producto</p>
+    <h2>Dos modos. Un mismo ciclo.</h2>
+    <p>Navigation es el modo diario. Precision Calibration usa laboratorios para afinar dirección. Puedes subir y bajar sin castigo.</p>
+    <div class="cycle"><span>Navigation</span><strong>-></strong><span>Precision Calibration</span><strong>-></strong><span>Vuelta a Navigation</span></div>
+  </section>
+
+  <section class="section axiom-cycle-close" aria-label="Axioma 11">
+    <p class="axiom-cycle-line">El estado metabólico es un equilibrio frágil. AMI te guía al estado óptimo y te mantiene con su configuración circular.</p>
+    <p class="axiom-cycle-emphasis">Navegas, optimizas, navegas.</p>
+  </section>
+
+  <section class="section card highlight">
+    <p class="eyebrow">Empieza con lo que tienes</p>
+    <h2>AMI navega. Tú decides el ritmo.</h2>
+    <p>Empieza con el contexto de hoy. El sistema está diseñado para continuidad, no para imposición.</p>
+    <div class="actions">
+      <a class="button secondary" href="/es/ami/how-it-works">Ver cómo funciona AMI</a>
+      <a class="button secondary" href="/es/privacy">Privacidad</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .axioma-hero .accent { color: #00FF94; }
+  .axioma-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .axioma-metrics .metric {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 16px;
+    background: rgba(0, 255, 148, 0.04);
+    display: grid;
+    gap: 6px;
+  }
+  .axioma-metrics strong {
+    font-size: 1.7rem;
+    color: #00FF94;
+  }
+  .axioma-metrics span {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .axiomas-block h2 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    line-height: 1.1;
+    margin: 0 0 18px;
+  }
+  .axiomas-oneliner {
+    max-width: 46rem;
+    border-left: 2px solid #00FF94;
+    padding-left: 16px;
+    color: var(--text);
+    font-size: 1.08rem;
+    line-height: 1.55;
+    margin: 0 0 34px;
+  }
+  .axioma-spine {
+    position: relative;
+    display: grid;
+    gap: 8px;
+  }
+  .axioma-spine::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 10px;
+    bottom: 10px;
+    width: 1px;
+    background: linear-gradient(180deg, #00FF94, transparent 95%);
+    opacity: 0.35;
+  }
+  .axioma-beat {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 22px;
+    padding: 22px 0;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .axioma-beat.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  .axioma-index {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 255, 148, 0.35);
+    display: grid;
+    place-items: center;
+    color: #00FF94;
+    font-weight: 800;
+    background: #071311;
+    position: relative;
+    z-index: 1;
+  }
+  .axioma-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #00FF94;
+    margin-bottom: 8px;
+  }
+  .axioma-quote {
+    margin: 0 0 10px;
+    font-size: clamp(1.05rem, 2vw, 1.28rem);
+    line-height: 1.35;
+    font-weight: 700;
+  }
+  .axioma-note {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .axioma-tag {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: #00FF94;
+    border: 1px solid rgba(0, 255, 148, 0.22);
+    background: rgba(0, 255, 148, 0.08);
+    border-radius: 999px;
+    padding: 4px 10px;
+  }
+  .axioma-disclaimer {
+    margin-top: 28px;
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  .axiom-cycle-close {
+    text-align: center;
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+  .axiom-cycle-line {
+    margin: 0 auto 18px;
+    max-width: 40rem;
+    color: #00FF94;
+    font-size: clamp(1.25rem, 3.2vw, 1.85rem);
+    line-height: 1.35;
+    font-weight: 600;
+  }
+  .axiom-cycle-emphasis {
+    margin: 0;
+    color: #00FF94;
+    font-size: clamp(1.85rem, 5vw, 3rem);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  @media (max-width: 800px) {
+    .axioma-metrics { grid-template-columns: 1fr 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .axioma-beat { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+
+<script>
+  const beats = document.querySelectorAll('.axioma-beat');
+  if (!('IntersectionObserver' in window)) {
+    beats.forEach((el) => el.classList.add('is-visible'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+    beats.forEach((el) => io.observe(el));
+  }
+</script>

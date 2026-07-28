@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { site } from '@data/site';
+
+const contacts = [
+  ['Founder', site.email.founder],
+  ['General', site.email.contact],
+  ['Help', site.email.help],
+  ['Privacy', site.email.privacy],
+  ['Legal', site.email.legal],
+  ['Security', site.email.security]
+];
+---
+<BaseLayout title="Contact" description="Contact NOVAHODOS.">
+  <section class="section hero"><p class="eyebrow">Contact</p><h1>Contact NOVAHODOS.</h1><p class="lede">Choose the official inbox that fits your message. Each address opens your email app.</p></section>
+  <section class="section grid two">{contacts.map(([label, email]) => <article class="card"><h2>{label}</h2><p><a class="email-link" href={`mailto:${email}`}>{email}</a></p></article>)}</section>
+</BaseLayout>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { site } from '@data/site';
+const faqs = [
+  ['¿AMI ya está disponible?', 'Sí. AMI está disponible en Google Play. Puedes iniciar 14 días gratis para ver tu señal — no para prometer milagros.'],
+  ['¿Necesito laboratorios?', 'Puedes empezar con tu contexto actual y recalibrar después cuando tengas laboratorios.'],
+  ['¿Qué pasa si rompo el ayuno?', 'AMI recalcula tu ruta y convierte la siguiente decisión en el nuevo punto de control. Sin castigo: el entendimiento genera adherencia.'],
+  ['¿Qué hace el coach?', 'Convierte tu ruta y tus métricas en guía diaria práctica. Tú marcas el ritmo; AMI navega.'],
+  ['¿Navegación o Calibración de Precisión?', 'Navegación ($19) se enfoca en ruta diaria. Calibración de Precisión ($49) agrega observabilidad más profunda con laboratorios. Ambos incluyen 14 días gratis. Navegas, calibras, vuelves a navegar.'],
+  ['¿Qué pasa con mis datos?', 'AMI explica almacenamiento, restauración, consentimiento y eliminación en la app y en /es/privacy. AMI no es un dispositivo médico y no diagnostica ni trata enfermedades.']
+];
+---
+<BaseLayout title="FAQ" description="Preguntas frecuentes sobre AMI y NOVAHODOS." lang="es">
+  <section class="section hero compact-hero"><p class="eyebrow">FAQ</p><h1>Preguntas simples. Respuestas claras.</h1><p class="lede">AMI es un sistema de navegación metabólica honesta: señales, trayectoria, ritmo tuyo.</p></section>
+  <section class="section stack">{faqs.map(([q, a]) => <article class="card"><h2>{q}</h2><p>{a}</p></article>)}</section>
+  <section class="section card highlight"><p class="eyebrow">Siguiente paso</p><h2>Ve tu señal durante 14 días.</h2><div class="actions"><a class="button" href={site.playStoreUrl} target="_blank" rel="noopener">Iniciar 14 días gratis</a></div></section>
+</BaseLayout>

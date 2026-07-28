@@ -1,0 +1,113 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { site } from '@data/site';
+
+const deleteAccountUrl = 'https://ami-app-tan.vercel.app/delete-account';
+const supportEmail = 'support@novahodos.com';
+---
+<BaseLayout
+  title="Privacy"
+  description="How AMI and NOVAHODOS handle personal and health-adjacent data, retention, and account deletion."
+  lang="en"
+>
+  <section class="section hero compact-hero">
+    <p class="eyebrow">Privacy</p>
+    <h1>How AMI handles your data.</h1>
+    <p class="lede">
+      AMI may store data in the browser and, if you create an account or sync, also in the AMI database for cross-device restore.
+      Data is used only for personal metabolic navigation.
+    </p>
+    <div class="actions">
+      <a class="button" href="#delete-account">Delete account</a>
+      <a class="button secondary" href="/legal">Legal overview</a>
+    </div>
+  </section>
+
+  <section class="section stack">
+    <article id="data-collected" class="card">
+      <p class="eyebrow">Data collected</p>
+      <h2>What AMI may process</h2>
+      <p>
+        AMI may process: profile (age, sex, weight, waist, height, goal), fasting sessions, labs/biomarkers you enter,
+        daily signals, XP, active plan, and sync state.
+      </p>
+      <p>
+        Optional labs and health-adjacent signals require explicit consent and should be handled as sensitive personal data.
+      </p>
+    </article>
+
+    <article id="how-we-use" class="card">
+      <p class="eyebrow">Use</p>
+      <h2>How we use data</h2>
+      <p>
+        Your data supports metabolic navigation: route estimates, daily coaching, fasting safety, and continuity across devices.
+        We do not sell your data to third parties or use it for third-party advertising.
+      </p>
+    </article>
+
+    <article id="sync" class="card">
+      <p class="eyebrow">Sync</p>
+      <h2>Account and device copies</h2>
+      <p>
+        The account enables data restore. If you do not sync, the browser may remain the main copy.
+      </p>
+    </article>
+
+    <article id="retention" class="card">
+      <p class="eyebrow">Retention</p>
+      <h2>How long data is kept</h2>
+      <p>
+        While your account exists, we keep what is needed for your trajectory and billing.
+        After account deletion we remove email, password, identifiable clinical data, sessions, plan,
+        and the local copy on this device.
+        Payment invoices are kept as tax law requires, and de-identified clinical data may be kept for research with no link to you.
+      </p>
+    </article>
+
+    <article id="delete-account" class="card highlight">
+      <p class="eyebrow">Delete account</p>
+      <h2>Delete your account and your data</h2>
+      <p>
+        You can delete your AMI account from Settings inside the app, or on the open web without installing the app.
+        Deletion is immediate and cannot be undone. If you have an active subscription, it is cancelled at that moment.
+      </p>
+      <p>
+        Open the AMI delete flow:
+        <a class="email-link" href={deleteAccountUrl}>{deleteAccountUrl}</a>
+      </p>
+      <p>
+        Spanish delete route:
+        <a class="email-link" href="https://ami-app-tan.vercel.app/eliminar-cuenta">https://ami-app-tan.vercel.app/eliminar-cuenta</a>
+      </p>
+      <p>
+        If you lost password access, write to
+        <a class="email-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+        from your account email and we will delete it within 30 days.
+      </p>
+      <div class="actions">
+        <a class="button" href={deleteAccountUrl}>Go to delete account</a>
+      </div>
+    </article>
+
+    <article id="limits" class="card">
+      <p class="eyebrow">Limits</p>
+      <h2>Product boundary</h2>
+      <p>
+        This beta should not be presented as a regulated medical device platform or certified clinical system.
+        AMI does not diagnose, prevent, treat, cure, or mitigate disease.
+      </p>
+    </article>
+
+    <article id="contact" class="card">
+      <p class="eyebrow">Contact</p>
+      <h2>Privacy contact</h2>
+      <p>
+        Controller: NOVAHODOS LLC.
+        For privacy or data questions, write to
+        <a class="email-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+        or
+        <a class="email-link" href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

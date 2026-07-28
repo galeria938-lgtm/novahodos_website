@@ -1,0 +1,25 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  body: string;
+  accent?: 'green' | 'blue';
+}
+
+const { eyebrow, title, body, accent = 'green' } = Astro.props;
+---
+<article class={`card knowledge-card ${accent}`}>
+  <div class="knowledge-mark" aria-hidden="true"></div>
+  <p class="eyebrow">{eyebrow}</p>
+  <h3>{title}</h3>
+  <p>{body}</p>
+</article>
+
+<style>
+  .knowledge-card { position: relative; overflow: hidden; min-height: 230px; }
+  .knowledge-card h3 { font-size: clamp(1.35rem, 2vw, 1.85rem); margin-bottom: 12px; }
+  .knowledge-mark { width: 54px; height: 54px; border-radius: 999px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.16); background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.72), transparent 18%), rgba(50,213,131,0.16); }
+  .knowledge-card.blue .knowledge-mark { background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.72), transparent 18%), rgba(92,200,255,0.16); }
+  .knowledge-card.green { border-color: rgba(50,213,131,0.32); }
+  .knowledge-card.blue { border-color: rgba(92,200,255,0.30); }
+</style>

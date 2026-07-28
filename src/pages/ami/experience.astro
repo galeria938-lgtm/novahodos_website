@@ -1,0 +1,75 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ProductImage from '@components/ProductImage.astro';
+import { site } from '@data/site';
+---
+<BaseLayout title="AMI Experience" description="A public-safe product presentation of AMI capabilities." lang="en">
+  <section class="section hero">
+    <p class="eyebrow">AMI Experience</p>
+    <h1>Visualize your trajectory. You set the pace.</h1>
+    <p class="lede">AMI uses mathematical models and purpose-built visuals to map your trajectory. If your metrics change or you miss the window, it recalculates the route. When you add labs, it sharpens directional context — without imposing a fixed destination.</p>
+    <div class="actions"><a class="button" href={site.playStoreUrl} target="_blank" rel="noopener">Start 14-day free trial</a><a class="button secondary" href="/ami/science">Read the Science</a></div>
+  </section>
+
+  <section class="section split">
+    <article class="product-shot"><ProductImage name="ami-map-safe" alt="Demo-safe preview of AMI metabolic map" width={720} height={366} /></article>
+    <article class="card highlight">
+      <p class="eyebrow">Metabolic Map</p>
+      <h2>Where are you headed?</h2>
+      <p>The map shows direction: where the route appears to be moving and whether the next step should be steady, lighter, or more precise.</p>
+      <div class="callout"><strong>Strength</strong><span>Turns complex metrics into a visual route.</span></div>
+      <div class="callout"><strong>Public name</strong><span>Metabolic Map.</span></div>
+    </article>
+  </section>
+
+  <section class="section split">
+    <article class="card blue-card">
+      <p class="eyebrow">Adaptive Window</p>
+      <h2>Why this fasting intensity today?</h2>
+      <p>A good route adapts intensity. If you miss the window, AMI adjusts the path and waits for the next data point. You remain the captain.</p>
+      <div class="callout"><strong>Strength</strong><span>One clear decision instead of many metrics.</span></div>
+      <div class="callout"><strong>Public name</strong><span>Adaptive Fasting Window.</span></div>
+    </article>
+    <article class="product-shot"><ProductImage name="ami-window-safe" alt="Demo-safe preview of AMI adaptive fasting window" width={720} height={985} /></article>
+  </section>
+
+  <section class="section split">
+    <article class="product-shot"><ProductImage name="ami-coach-safe" alt="Demo-safe preview of AMI coach" width={720} height={843} /></article>
+    <article class="card">
+      <p class="eyebrow">Adaptive Coach</p>
+      <h2>What should you do next?</h2>
+      <p>The coach turns route, energy, sleep, hunger, fasting behavior, and context into practical language.</p>
+      <div class="callout"><strong>Strength</strong><span>Makes the system feel personal while staying focused on practical metabolic guidance.</span></div>
+      <div class="callout"><strong>Public name</strong><span>Adaptive Coach.</span></div>
+    </article>
+  </section>
+
+  <section class="section split">
+    <article class="card highlight">
+      <p class="eyebrow">Precision Calibration</p>
+      <h2>What changes when you calibrate?</h2>
+      <p>Optional labs can sharpen the route by adding more context for Precision Calibration.</p>
+      <div class="callout"><strong>Strength</strong><span>Connects daily behavior with longitudinal metrics.</span></div>
+      <div class="callout"><strong>Public name</strong><span>Precision Calibration.</span></div>
+    </article>
+    <article class="product-shot"><ProductImage name="ami-labs-safe" alt="Demo-safe preview of AMI lab calibration" width={720} height={851} /></article>
+  </section>
+
+  <section class="section card blue-card">
+    <p class="eyebrow">Trajectory Case 001</p>
+    <h2>AMI reads direction across the trajectory.</h2>
+    <p>This anonymized engineering example uses relative days only. It shows why AMI treats labs as trajectory indicators: context, timing, fasting state, and retests can change the interpretation.</p>
+    <div class="compare">
+      <div class="compare-row"><div>Day 0</div><div>High metabolic load. AMI establishes a starting route.</div></div>
+      <div class="compare-row"><div>Day 6</div><div>Long fasting context. AMI marks the context instead of treating the snapshot as the whole story.</div></div>
+      <div class="compare-row"><div>Day 126</div><div>Cleaner direction. The route becomes easier to explain.</div></div>
+      <div class="compare-row"><div>Day 152</div><div>Intentional stress test. AMI reads the perturbation and recalibrates instead of pretending the path is linear.</div></div>
+    </div>
+  </section>
+
+  <section class="section grid">
+    <article class="card"><p class="eyebrow">Power</p><h2>A calibration timeline inside a route.</h2><p>AMI combines behavior, fasting windows, metrics, and optional labs into one route.</p></article>
+    <article class="card"><p class="eyebrow">Precision</p><h2>Calibration when it matters.</h2><p>Precision mode adds observability when the user has labs or wants deeper review.</p></article>
+    <article class="card"><p class="eyebrow">Coach</p><h2>Next step with metrics.</h2><p>The coach translates the route into a practical action for today.</p></article>
+  </section>
+</BaseLayout>
