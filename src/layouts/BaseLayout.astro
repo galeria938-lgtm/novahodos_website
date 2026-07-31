@@ -12,12 +12,18 @@ const { title, description = site.description, canonical = Astro.url.pathname, l
 const t = copy[lang];
 const pageTitle = title === site.name ? site.name : `${title} | ${site.name}`;
 const canonicalUrl = new URL(canonical, site.url).toString();
-const alternatePath = lang === 'en' ? `/es${Astro.url.pathname === '/' ? '' : Astro.url.pathname}` : (Astro.url.pathname.replace(/^\/es/, '') || '/');
-const alternateUrl = new URL(alternatePath, site.url).toString();
 const path = Astro.url.pathname;
-const englishHref = lang === 'en' ? path : (path.replace(/^\/es/, '') || '/');
+const alternatePath = lang === 'en'
+  ? `/es${path === '/' ? '' : path}`
+  : (path === '/' ? '/ami' : (path.replace(/^\/es/, '') || '/'));
+const alternateUrl = new URL(alternatePath, site.url).toString();
+const englishHref = lang === 'en' ? path : (path === '/' ? '/ami' : (path.replace(/^\/es/, '') || '/'));
 const spanishHref = lang === 'es' ? path : (path === '/' ? '/es' : '/es' + path);
-const localizeHref = (href: string) => lang === 'es' ? (href === '/' ? '/es' : `/es${href}`) : href;
+const localizeHref = (href: string) => {
+  if (lang !== 'es') return href;
+  if (path === '/' && href === '/') return '/';
+  return href === '/' ? '/es' : `/es${href}`;
+};
 const playStoreUrl = site.playStoreUrl;
 const headerCtaHref = playStoreUrl;
 const headerCtaLabel = t.nav.cta;
