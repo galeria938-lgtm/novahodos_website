@@ -1,21 +1,78 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import PayMethods from '@components/PayMethods.astro';
 import { site } from '@data/site';
+
+const nav = site.plans.navigation;
+const cal = site.plans.calibration;
 ---
-<BaseLayout title="Pricing" description="AMI pricing for Navigation and Precision Calibration. 14-day free trial on both plans." lang="en">
+<BaseLayout
+  title="Pricing"
+  description="AMI Navigation $19 and Precision Calibration $49. 14-day free trial on the web."
+  lang="en"
+>
   <section class="section hero compact-hero">
-    <p class="eyebrow">Pricing</p>
-    <h1>Metabolic navigation, starting at $19.</h1>
-    <p class="lede">AMI turns metabolic signals into clear daily decisions. Start with Navigation, then use Precision Calibration when deeper data can sharpen the route. Both plans include a 14-day free trial.</p>
-    <div class="actions"><a class="button" href={site.playStoreUrl} target="_blank" rel="noopener">Start 14-day free trial</a><a class="button secondary" href="/ami/experience">See AMI in action</a></div>
+    <p class="eyebrow">Pricing · Web channel</p>
+    <h1>Choose how you want to navigate.</h1>
+    <p class="lede">Start on the web with 14 days free. Today $0. Then Stripe charges the plan automatically.</p>
+    <div class="actions">
+      <a class="button" href="#plans">See plans</a>
+      <a class="button secondary" href="/ami/experience">See AMI in action</a>
+    </div>
   </section>
 
-  <section class="section grid two">
-    <article class="card highlight"><p class="eyebrow">AMI Navigation</p><h2>$19 / month</h2><p>Daily metabolic decision support for fasting windows, signals, coach guidance, and route continuity.</p><div class="compare"><div class="compare-row"><div>Best for</div><div>Daily direction and consistency.</div></div><div class="compare-row"><div>Includes</div><div>Coach, fasting route, daily metrics, and route state.</div></div><div class="compare-row"><div>Trial</div><div>14-day free trial.</div></div><div class="compare-row"><div>Labs</div><div>Can inform the route while Precision Calibration keeps deeper observability organized.</div></div></div></article>
-    <article class="card blue-card"><p class="eyebrow">AMI Precision Calibration</p><h2>$49 / month</h2><p>Deeper observability when labs, ratios, longitudinal recalibration, and precision review matter.</p><div class="compare"><div class="compare-row"><div>Best for</div><div>Fine-tuning with deeper data.</div></div><div class="compare-row"><div>Includes</div><div>Labs, ratios, trends, calibration context, and precision dashboards.</div></div><div class="compare-row"><div>Trial</div><div>14-day free trial.</div></div><div class="compare-row"><div>Cycle</div><div>Use it when it matters, then return to Navigation with a sharper route.</div></div></div></article>
+  <section class="section" id="plans">
+    <p class="eyebrow">Plans</p>
+    <h2>Navigation or Calibration.</h2>
+    <div class="pricing-plans">
+      <article class="plan plan-nav">
+        <p class="eyebrow">Daily</p>
+        <h3>AMI Navigation</h3>
+        <p class="plan-price"><strong>${nav.priceMonthly}</strong><span>/ month</span></p>
+        <p>Daily route, coach, window, and trajectory. 14-day free trial.</p>
+        <a class="button" href={nav.paymentUrl} target="_blank" rel="noopener">Start Navigation — 14 days</a>
+        <PayMethods lang="en" />
+      </article>
+      <article class="plan plan-cal">
+        <p class="eyebrow">Precision</p>
+        <h3>AMI Precision Calibration</h3>
+        <p class="plan-price"><strong>${cal.priceMonthly}</strong><span>/ month</span></p>
+        <p>Everything in Navigation plus labs, ratios, and calibration. 14-day free trial.</p>
+        <a class="button" href={cal.paymentUrl} target="_blank" rel="noopener">Start Calibration — 14 days</a>
+        <PayMethods lang="en" />
+      </article>
+    </div>
   </section>
-
-  <section class="section card highlight"><p class="eyebrow">The AMI cycle</p><h2>Navigate. Calibrate. Navigate again.</h2><p>Most days need a clearer next decision. New data sharpens the route when it matters. When new labs or a deeper question appear, Precision Calibration sharpens the route. Then Navigation keeps the route alive.</p><div class="cycle"><span>Navigation</span><strong>-></strong><span>Precision Calibration</span><strong>-></strong><span>Sharper Navigation</span></div></section>
-
-  <section class="section grid"><article class="card"><p class="eyebrow">Decision cycle</p><h2>Two modes, one system.</h2><p>Navigation and Precision Calibration are states in the same metabolic engineering loop.</p></article><article class="card"><p class="eyebrow">Transparent</p><h2>Start simple.</h2><p>Begin with daily route support. Calibrate when more precision is useful.</p></article><article class="card"><p class="eyebrow">Boundaries</p><h2>Engineering for metabolic navigation.</h2><p>AMI supports metabolic navigation and personal optimization with clear wellness boundaries; it does not diagnose, prevent, treat, or cure disease.</p></article></section>
 </BaseLayout>
+
+<style>
+  .pricing-plans {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 12px;
+  }
+  .plan {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 28px 24px;
+    display: grid;
+    gap: 12px;
+    align-content: start;
+  }
+  .plan-nav {
+    border-color: rgba(50, 213, 131, 0.44);
+    background: linear-gradient(145deg, rgba(50, 213, 131, 0.13), rgba(255, 255, 255, 0.03));
+  }
+  .plan-cal {
+    border-color: rgba(92, 200, 255, 0.36);
+    background: linear-gradient(145deg, rgba(92, 200, 255, 0.11), rgba(255, 255, 255, 0.03));
+  }
+  .plan h3 { margin: 0; }
+  .plan-price { margin: 0; display: flex; align-items: baseline; gap: 8px; }
+  .plan-price strong { font-size: 2.6rem; color: #00ff94; line-height: 1; }
+  .plan .button { width: 100%; }
+  @media (max-width: 800px) {
+    .pricing-plans { grid-template-columns: 1fr; }
+  }
+</style>

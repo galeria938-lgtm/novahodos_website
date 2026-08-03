@@ -9,6 +9,19 @@ export const site = {
   primaryCta: 'Start 14-day free trial',
   secondaryCta: 'How AMI Works',
   playStoreUrl: 'https://play.google.com/store/apps/details?id=com.novahodos.ami',
+  checkoutUrl: 'https://buy.stripe.com/eVq5kw79Y9LA7jC1ro8og04',
+  plans: {
+    navigation: {
+      id: 'navigation',
+      priceMonthly: 19,
+      paymentUrl: 'https://buy.stripe.com/eVq5kw79Y9LA7jC1ro8og04',
+    },
+    calibration: {
+      id: 'calibration',
+      priceMonthly: 49,
+      paymentUrl: 'https://buy.stripe.com/eVq8wIeCq8HwcDW9XU8og05',
+    },
+  },
   email: {
     founder: 'noelmontealegre@novahodos.com',
     hello: 'hello@novahodos.com',

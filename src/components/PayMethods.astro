@@ -1,0 +1,93 @@
+---
+import { site, type Locale } from '@data/site';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
+
+const t =
+  lang === 'es'
+    ? {
+        accepted: 'Aceptamos',
+        android: 'O compra en la tienda Android',
+      }
+    : {
+        accepted: 'We accept',
+        android: 'Or buy on the Android store',
+      };
+
+const methods = [
+  { id: 'card', label: lang === 'es' ? 'Tarjeta' : 'Card' },
+  { id: 'apple', label: 'Apple Pay' },
+  { id: 'google', label: 'Google Pay' },
+  { id: 'link', label: 'Link' },
+  { id: 'cashapp', label: 'Cash App' },
+  { id: 'klarna', label: 'Klarna' },
+  { id: 'amazon', label: 'Amazon Pay' },
+];
+---
+
+<div class="pay-methods">
+  <p class="pay-methods-label">{t.accepted}</p>
+  <ul class="pay-methods-list">
+    {methods.map((m) => (
+      <li class={`pay-chip pay-${m.id}`}>{m.label}</li>
+    ))}
+  </ul>
+  <a class="android-alt" href={site.playStoreUrl} target="_blank" rel="noopener">{t.android}</a>
+</div>
+
+<style>
+  .pay-methods {
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .pay-methods-label {
+    margin: 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 800;
+  }
+  .pay-methods-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .pay-chip {
+    font-size: 0.72rem;
+    font-weight: 750;
+    color: var(--text);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 9px;
+    background: rgba(255, 255, 255, 0.04);
+    white-space: nowrap;
+  }
+  .android-alt {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    max-width: 100%;
+    margin-top: 4px;
+    min-height: 34px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(50, 213, 131, 0.45);
+    background: rgba(50, 213, 131, 0.14);
+    color: #00ff94;
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+  .android-alt:hover {
+    background: rgba(50, 213, 131, 0.22);
+  }
+</style>

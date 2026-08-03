@@ -25,7 +25,7 @@ const localizeHref = (href: string) => {
   return href === '/' ? '/es' : `/es${href}`;
 };
 const playStoreUrl = site.playStoreUrl;
-const headerCtaHref = playStoreUrl;
+const headerCtaHref = site.checkoutUrl || playStoreUrl;
 const headerCtaLabel = t.nav.cta;
 const visibleNavItems = navItems;
 ---
