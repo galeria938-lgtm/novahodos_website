@@ -1,4 +1,4 @@
-export type Locale = 'en' | 'es';
+export type Locale = 'en' | 'es' | 'pt' | 'fr' | 'it';
 
 export const site = {
   name: 'NOVAHODOS',
@@ -9,17 +9,20 @@ export const site = {
   primaryCta: 'Start 14-day free trial',
   secondaryCta: 'How AMI Works',
   playStoreUrl: 'https://play.google.com/store/apps/details?id=com.novahodos.ami',
-  checkoutUrl: 'https://buy.stripe.com/eVq5kw79Y9LA7jC1ro8og04',
+  androidApkUrl: '/downloads/AMI-Android-Direct-1.0.8.apk',
+  checkoutUrl: '/pricing',
+  billingApiUrl: 'https://amiengine-production.up.railway.app',
+  webAppUrl: 'https://ami-app-tan.vercel.app',
   plans: {
     navigation: {
       id: 'navigation',
       priceMonthly: 19,
-      paymentUrl: 'https://buy.stripe.com/eVq5kw79Y9LA7jC1ro8og04',
+      planKey: 'navigation_19_monthly',
     },
     calibration: {
       id: 'calibration',
       priceMonthly: 49,
-      paymentUrl: 'https://buy.stripe.com/eVq8wIeCq8HwcDW9XU8og05',
+      planKey: 'calibration_49_monthly',
     },
   },
   email: {
@@ -50,6 +53,33 @@ export const copy = {
     footer: {
       note: 'NOVAHODOS construye sistemas adaptativos. AMI aplica ingeniería de precisión para apoyar hábitos metabólicos más saludables y una trayectoria metabólica más clara.',
       legal: 'Legal', privacy: 'Privacidad', terms: 'Términos', disclaimer: 'Aviso de salud', consent: 'Consentimiento de datos', contact: 'Contacto', faq: 'FAQ', pricing: 'Precios'
+    }
+  },
+  pt: {
+    nav: {
+      ami: 'AMI', how: 'Como funciona', science: 'Ciência', experience: 'Experiência', pricing: 'Preços', cta: 'Iniciar 14 dias grátis'
+    },
+    footer: {
+      note: 'NOVAHODOS constrói sistemas adaptativos. AMI aplica engenharia de precisão para apoiar hábitos metabólicos mais saudáveis e uma trajetória metabólica mais clara.',
+      legal: 'Legal', privacy: 'Privacidade', terms: 'Termos', disclaimer: 'Aviso de saúde', consent: 'Consentimento de dados', contact: 'Contacto', faq: 'FAQ', pricing: 'Preços'
+    }
+  },
+  fr: {
+    nav: {
+      ami: 'AMI', how: 'Comment ça marche', science: 'Science', experience: 'Expérience', pricing: 'Tarifs', cta: 'Essai gratuit 14 jours'
+    },
+    footer: {
+      note: 'NOVAHODOS construit des systèmes adaptatifs. AMI applique une ingénierie de précision pour soutenir des habitudes métaboliques plus saines et une trajectoire plus claire.',
+      legal: 'Légal', privacy: 'Confidentialité', terms: 'Conditions', disclaimer: 'Avertissement santé', consent: 'Consentement données', contact: 'Contact', faq: 'FAQ', pricing: 'Tarifs'
+    }
+  },
+  it: {
+    nav: {
+      ami: 'AMI', how: 'Come funziona', science: 'Scienza', experience: 'Esperienza', pricing: 'Prezzi', cta: 'Prova gratuita 14 giorni'
+    },
+    footer: {
+      note: 'NOVAHODOS costruisce sistemi adattivi. AMI applica ingegneria di precisione per supportare abitudini metaboliche più sane e una traiettoria più chiara.',
+      legal: 'Legale', privacy: 'Privacy', terms: 'Termini', disclaimer: 'Avviso salute', consent: 'Consenso dati', contact: 'Contatto', faq: 'FAQ', pricing: 'Prezzi'
     }
   }
 } satisfies Record<Locale, { nav: Record<string, string>; footer: Record<string, string> }>;

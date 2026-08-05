@@ -1,0 +1,20 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ClaimActivate from '@components/ClaimActivate.astro';
+import { claimCopy, resolveClaimLocale } from '@data/claimI18n';
+
+const requested = Astro.url.searchParams.get('lang');
+const locale = resolveClaimLocale(requested || 'es');
+const t = claimCopy[locale];
+
+if (requested && locale !== 'es') {
+  const q = new URLSearchParams(Astro.url.searchParams);
+  q.delete('lang');
+  const qs = q.toString();
+  return Astro.redirect(`/${locale}/claim${qs ? `?${qs}` : ''}`);
+}
+---
+
+<BaseLayout title={t.title} description={t.description} lang="es">
+  <ClaimActivate locale={locale} />
+</BaseLayout>

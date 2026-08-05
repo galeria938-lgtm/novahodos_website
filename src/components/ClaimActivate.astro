@@ -1,0 +1,203 @@
+---
+import { site } from '@data/site';
+import { claimCopy, type ClaimLocale } from '@data/claimI18n';
+
+interface Props {
+  locale: ClaimLocale;
+}
+
+const { locale } = Astro.props;
+const t = claimCopy[locale];
+---
+
+<section
+  class="section claim-shell"
+  data-claim
+  data-api={site.billingApiUrl}
+  data-locale={locale}
+  data-msg-missing={t.missingSession}
+  data-msg-verify={t.verifyFail}
+  data-msg-mismatch={t.mismatch}
+  data-msg-activate={t.activateFail}
+  data-msg-busy={t.busy}
+  data-msg-submit={t.submit}
+  data-plan-nav={t.planNav}
+  data-plan-cal={t.planCal}
+>
+  <div class="claim-card">
+    <p class="lang-switch" aria-label="Language">
+      <a href={`/claim${Astro.url.search}`}>ES</a>
+      <a href={`/en/claim${Astro.url.search}`}>EN</a>
+      <a href={`/pt/claim${Astro.url.search}`}>PT</a>
+      <a href={`/fr/claim${Astro.url.search}`}>FR</a>
+      <a href={`/it/claim${Astro.url.search}`}>IT</a>
+    </p>
+    <p class="eyebrow">{t.eyebrow}</p>
+    <h1>{t.heading}</h1>
+    <p class="lede">{t.lede}</p>
+
+    <div class="claim-preview" data-preview hidden>
+      <span>{t.emailLabel}</span>
+      <strong data-email></strong>
+      <span>{t.planLabel}</span>
+      <strong data-plan></strong>
+    </div>
+
+    <form data-form>
+      <label>
+        <span>{t.passwordLabel}</span>
+        <input name="password" type="password" minlength="8" autocomplete="new-password" required />
+      </label>
+      <label>
+        <span>{t.confirmLabel}</span>
+        <input name="confirm" type="password" minlength="8" autocomplete="new-password" required />
+      </label>
+      <p class="claim-error" data-error role="alert"></p>
+      <button class="button" type="submit">{t.submit}</button>
+    </form>
+
+    <div class="claim-success" data-success hidden>
+      <p class="eyebrow">{t.successEyebrow}</p>
+      <h2>{t.successHeading}</h2>
+      <p>{t.successBody}</p>
+      <div class="actions">
+        <a class="button" href={site.androidApkUrl} download>{t.downloadApk}</a>
+        <a class="button secondary" href={site.webAppUrl}>{t.openWeb}</a>
+      </div>
+      <p class="install-note">{t.installNote}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const root = document.querySelector('[data-claim]');
+  if (root instanceof HTMLElement) {
+    const api = root.dataset.api || '';
+    const sessionId = new URLSearchParams(window.location.search).get('session_id') || '';
+    const form = root.querySelector<HTMLFormElement>('[data-form]');
+    const preview = root.querySelector('[data-preview]');
+    const error = root.querySelector('[data-error]');
+    const success = root.querySelector('[data-success]');
+    const msg = {
+      missing: root.dataset.msgMissing || '',
+      verify: root.dataset.msgVerify || '',
+      mismatch: root.dataset.msgMismatch || '',
+      activate: root.dataset.msgActivate || '',
+      busy: root.dataset.msgBusy || '',
+      submit: root.dataset.msgSubmit || '',
+      planNav: root.dataset.planNav || 'Navigation ($19)',
+      planCal: root.dataset.planCal || 'Precision Calibration ($49)',
+    };
+    const setError = (message: string) => {
+      if (error) error.textContent = message;
+    };
+
+    if (!sessionId) {
+      setError(msg.missing);
+      if (form) form.setAttribute('hidden', '');
+    } else {
+      fetch(`${api}/billing/claim-preview`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ session_id: sessionId }),
+      })
+        .then(async (response) => {
+          const body = await response.json().catch(() => ({}));
+          if (!response.ok) throw new Error(body.detail || msg.verify);
+          return body;
+        })
+        .then((body) => {
+          const email = root.querySelector('[data-email]');
+          const plan = root.querySelector('[data-plan]');
+          if (email) email.textContent = body.email_masked || '';
+          if (plan) {
+            plan.textContent = String(body.plan_key || '').includes('calibrat')
+              ? msg.planCal
+              : msg.planNav;
+          }
+          if (preview) preview.removeAttribute('hidden');
+        })
+        .catch((cause) => setError(cause.message || msg.verify));
+    }
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      setError('');
+      const data = new FormData(form);
+      const password = String(data.get('password') || '');
+      const confirm = String(data.get('confirm') || '');
+      if (password !== confirm) {
+        setError(msg.mismatch);
+        return;
+      }
+      const button = form.querySelector('button');
+      if (button) {
+        button.disabled = true;
+        button.textContent = msg.busy;
+      }
+      try {
+        const response = await fetch(`${api}/billing/claim-session`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ session_id: sessionId, password }),
+        });
+        const body = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(body.detail || msg.activate);
+        form.setAttribute('hidden', '');
+        if (preview) preview.setAttribute('hidden', '');
+        if (success) success.removeAttribute('hidden');
+      } catch (cause) {
+        setError(cause instanceof Error ? cause.message : msg.activate);
+        if (button) {
+          button.disabled = false;
+          button.textContent = msg.submit;
+        }
+      }
+    });
+  }
+</script>
+
+<style>
+  .claim-shell { display: grid; place-items: center; min-height: 70vh; }
+  .claim-card {
+    width: min(620px, 100%);
+    padding: clamp(24px, 5vw, 44px);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.055);
+  }
+  .lang-switch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 0 0 12px;
+    font-size: 0.8rem;
+  }
+  .lang-switch a { color: var(--muted); text-decoration: none; }
+  .lang-switch a:hover { color: var(--text); }
+  .claim-card h1 { font-size: clamp(2.2rem, 7vw, 4.4rem); }
+  form, label, .claim-preview, .claim-success { display: grid; gap: 10px; }
+  form { margin-top: 24px; gap: 16px; }
+  label span, .claim-preview span { color: var(--muted); font-size: 0.85rem; }
+  input {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 0 14px;
+    background: rgba(0,0,0,0.28);
+    color: var(--text);
+    font: inherit;
+  }
+  .claim-preview {
+    margin-top: 22px;
+    padding: 16px;
+    border-radius: 10px;
+    background: rgba(50,213,131,0.09);
+  }
+  .claim-error { min-height: 1.4em; margin: 0; color: #ff9b9b; }
+  .claim-success { margin-top: 22px; }
+  .install-note { color: var(--muted); font-size: 0.82rem; }
+  [hidden] { display: none !important; }
+</style>

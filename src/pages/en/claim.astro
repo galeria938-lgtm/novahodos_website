@@ -1,0 +1,11 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ClaimActivate from '@components/ClaimActivate.astro';
+import { claimCopy } from '@data/claimI18n';
+
+const t = claimCopy.en;
+---
+
+<BaseLayout title={t.title} description={t.description} lang="en">
+  <ClaimActivate locale="en" />
+</BaseLayout>
