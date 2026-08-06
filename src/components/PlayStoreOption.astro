@@ -1,0 +1,50 @@
+---
+import { site, type Locale } from '@data/site';
+
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
+const label = lang === 'es'
+  ? 'También disponible en Google Play'
+  : 'Also available on Google Play';
+---
+
+<a
+  class="play-store-option"
+  href={site.playStoreUrl}
+  target="_blank"
+  rel="noopener"
+  aria-label={label}
+>
+  <span class="play-mark" aria-hidden="true">▶</span>
+  <span>{label}</span>
+</a>
+
+<style>
+  .play-store-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    width: max-content;
+    max-width: 100%;
+    min-height: 38px;
+    margin-top: 16px;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.035);
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+  .play-store-option:hover {
+    border-color: rgba(92, 200, 255, 0.42);
+    color: var(--text);
+  }
+  .play-mark {
+    color: var(--blue);
+    font-size: 0.7rem;
+  }
+</style>
