@@ -1,5 +1,11 @@
 ---
-import { site } from '@data/site';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import DeleteAccountPanel from '@components/DeleteAccountPanel.astro';
+import { deleteAccountCopy } from '@data/deleteAccountI18n';
 
-return Astro.redirect(`${site.webAppUrl}/eliminar-cuenta`);
+const t = deleteAccountCopy.es;
 ---
+
+<BaseLayout title={t.title} description={t.description} lang="es" canonical="/eliminar-cuenta">
+  <DeleteAccountPanel lang="es" />
+</BaseLayout>

@@ -1,0 +1,273 @@
+---
+import { site } from '@data/site';
+import {
+  deleteAccountCopy,
+  type DeleteAccountLang,
+} from '@data/deleteAccountI18n';
+
+interface Props {
+  lang?: DeleteAccountLang;
+}
+
+const { lang = 'en' } = Astro.props;
+const t = deleteAccountCopy[lang] || deleteAccountCopy.en;
+const apiBase = site.billingApiUrl.replace(/\/$/, '');
+---
+
+<section class="da" data-api={apiBase} data-lang={lang}>
+  <p class="da-kicker">{t.kicker}</p>
+  <h1>{t.heading}</h1>
+  <p class="da-intro">{t.intro}</p>
+
+  <div class="da-grid">
+    <div>
+      <h2>{t.deletedTitle}</h2>
+      <ul>
+        {t.deleted.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+    <div>
+      <h2>{t.keptTitle}</h2>
+      <ul>
+        {t.kept.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </div>
+
+  <p class="da-warn" role="note">{t.warning}</p>
+
+  <div class="da-form-wrap" data-da-form>
+    <form class="da-form" novalidate>
+      <label>
+        <span>{t.emailLabel}</span>
+        <input type="email" name="email" autocomplete="username" required />
+      </label>
+      <label>
+        <span>{t.passwordLabel}</span>
+        <input type="password" name="password" autocomplete="current-password" required />
+        <small>{t.passwordHint}</small>
+      </label>
+      <p class="da-error" data-da-error hidden></p>
+      <button type="submit" data-da-submit>{t.submit}</button>
+    </form>
+  </div>
+
+  <div class="da-done" data-da-done hidden>
+    <h2 data-da-done-title>{t.doneTitle}</h2>
+    <p data-da-done-body>{t.doneBody}</p>
+  </div>
+
+  <div class="da-lost">
+    <h2>{t.lostTitle}</h2>
+    <p>
+      {t.lostBody}
+      {' '}
+      <a href={`mailto:${t.supportEmail}`}>{t.supportEmail}</a>
+    </p>
+  </div>
+</section>
+
+<script define:vars={{ copy: t, apiBase }}>
+  const root = document.querySelector('.da');
+  if (!root) {
+    // no-op
+  } else {
+    const formWrap = root.querySelector('[data-da-form]');
+    const form = root.querySelector('.da-form');
+    const errEl = root.querySelector('[data-da-error]');
+    const submitBtn = root.querySelector('[data-da-submit]');
+    const doneEl = root.querySelector('[data-da-done]');
+    const doneTitle = root.querySelector('[data-da-done-title]');
+    const doneBody = root.querySelector('[data-da-done-body]');
+
+    function setError(msg) {
+      if (!errEl) return;
+      if (!msg) {
+        errEl.hidden = true;
+        errEl.textContent = '';
+        return;
+      }
+      errEl.hidden = false;
+      errEl.textContent = msg;
+    }
+
+    async function login(email, password) {
+      const res = await fetch(`${apiBase}/auth/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const err = new Error('auth');
+        err.status = res.status;
+        throw err;
+      }
+      return data;
+    }
+
+    async function deleteAccount(password, token) {
+      const res = await fetch(`${apiBase}/account/delete`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+          'X-AMI-Account-Token': token,
+        },
+        body: JSON.stringify({ password }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const err = new Error('delete');
+        err.status = res.status;
+        throw err;
+      }
+      return data;
+    }
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      setError('');
+      const fd = new FormData(form);
+      const email = String(fd.get('email') || '').trim();
+      const password = String(fd.get('password') || '');
+      if (!email || !password) return;
+      if (!window.confirm(copy.confirm)) return;
+
+      submitBtn.disabled = true;
+      const prev = submitBtn.textContent;
+      submitBtn.textContent = copy.busy;
+
+      try {
+        const session = await login(email, password);
+        const token = String(session?.account_token || '').trim();
+        if (!token) throw Object.assign(new Error('auth'), { status: 401 });
+        const result = await deleteAccount(password, token);
+        if (formWrap) formWrap.hidden = true;
+        if (doneEl) doneEl.hidden = false;
+        if (doneTitle) doneTitle.textContent = copy.doneTitle;
+        if (doneBody) {
+            const sub = String(result?.subscription || 'none');
+            doneBody.textContent =
+              sub === 'cancel_failed' ? copy.subscriptionWarning : copy.doneBody;
+          }
+      } catch (err) {
+        if (err?.status === 401 || err?.status === 403 || err?.message === 'auth') {
+          setError(copy.errorAuth);
+        } else {
+          setError(copy.errorNetwork);
+        }
+        submitBtn.disabled = false;
+        submitBtn.textContent = prev;
+      }
+    });
+  }
+</script>
+
+<style>
+  .da {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 2.5rem 1.25rem 4rem;
+    color: var(--text, #1a1a1a);
+  }
+  .da-kicker {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin: 0 0 0.5rem;
+  }
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+  }
+  .da-intro {
+    margin: 0 0 1.5rem;
+    line-height: 1.5;
+    opacity: 0.9;
+  }
+  .da-grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .da-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  h2 {
+    font-size: 0.95rem;
+    margin: 0 0 0.5rem;
+  }
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    line-height: 1.45;
+    font-size: 0.9rem;
+  }
+  .da-warn {
+    border-left: 3px solid #b45309;
+    padding: 0.65rem 0.85rem;
+    background: #fffbeb;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    margin: 0 0 1.5rem;
+  }
+  .da-form {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  label {
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+  }
+  input {
+    font: inherit;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  small {
+    opacity: 0.7;
+    font-size: 0.8rem;
+  }
+  .da-error {
+    color: #b91c1c;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  button[type='submit'] {
+    font: inherit;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 6px;
+    background: #b91c1c;
+    color: #fff;
+    cursor: pointer;
+  }
+  button[type='submit']:disabled {
+    opacity: 0.7;
+    cursor: wait;
+  }
+  .da-done {
+    padding: 1rem 0 1.5rem;
+  }
+  .da-lost {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+  .da-lost a {
+    color: inherit;
+  }
+</style>

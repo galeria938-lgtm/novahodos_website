@@ -3,9 +3,7 @@
   "redirects": [
     { "source": "/", "destination": "/es/ami", "permanent": false },
     { "source": "/es", "destination": "/es/ami", "permanent": false },
-    { "source": "/es/", "destination": "/es/ami", "permanent": false },
-    { "source": "/delete-account", "destination": "https://ami-app-tan.vercel.app/delete-account", "permanent": false },
-    { "source": "/eliminar-cuenta", "destination": "https://ami-app-tan.vercel.app/eliminar-cuenta", "permanent": false }
+    { "source": "/es/", "destination": "/es/ami", "permanent": false }
   ],
   "headers": [
     {
