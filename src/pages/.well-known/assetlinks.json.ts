@@ -1,0 +1,26 @@
+import type { APIRoute } from 'astro';
+
+/** Play App Signing + upload key — must stay in sync with public/.well-known/assetlinks.json */
+const assetLinks = [
+  {
+    relation: ['delegate_permission/common.handle_all_urls'],
+    target: {
+      namespace: 'android_app',
+      package_name: 'com.novahodos.ami',
+      sha256_cert_fingerprints: [
+        'B8:3B:3E:B3:A0:6D:45:F9:04:A2:7E:50:3F:78:BF:FD:22:E0:F0:AC:86:87:D9:EC:98:70:0E:76:83:E5:BB:BD',
+        'F7:45:89:F8:F5:C9:FB:81:62:D4:F8:36:90:A3:9B:F6:75:14:42:CE:8B:20:28:C7:03:5B:4E:32:01:87:C9:DA',
+      ],
+    },
+  },
+];
+
+export const prerender = true;
+
+export const GET: APIRoute = () =>
+  new Response(`${JSON.stringify(assetLinks, null, 2)}\n`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, max-age=300, must-revalidate',
+    },
+  });

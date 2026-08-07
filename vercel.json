@@ -1,4 +1,5 @@
 {
+  "framework": "astro",
   "redirects": [
     { "source": "/", "destination": "/es/ami", "permanent": false },
     { "source": "/es", "destination": "/es/ami", "permanent": false },
@@ -12,6 +13,13 @@
       "headers": [
         { "key": "Content-Type", "value": "application/json" },
         { "key": "Cache-Control", "value": "public, max-age=300, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/assetlinks-canary.json",
+      "headers": [
+        { "key": "Content-Type", "value": "application/json" },
+        { "key": "Cache-Control", "value": "public, max-age=60, must-revalidate" }
       ]
     },
     {
