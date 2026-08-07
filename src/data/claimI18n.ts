@@ -51,8 +51,8 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     verifyFail: 'No se pudo verificar el pago.',
     mismatch: 'Las contraseñas no coinciden.',
     activateFail: 'No se pudo activar AMI.',
-    planNav: 'Navigation ($19)',
-    planCal: 'Precision Calibration ($49)',
+    planNav: 'Navegación ($19)',
+    planCal: 'Calibración de Precisión ($49)',
   },
   en: {
     title: 'Activate and download AMI',
@@ -101,8 +101,8 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     verifyFail: 'Não foi possível verificar o pagamento.',
     mismatch: 'As senhas não coincidem.',
     activateFail: 'Não foi possível ativar o AMI.',
-    planNav: 'Navigation ($19)',
-    planCal: 'Precision Calibration ($49)',
+    planNav: 'Navegação ($19)',
+    planCal: 'Calibração de Precisão ($49)',
   },
   fr: {
     title: 'Activez et téléchargez AMI',
@@ -127,7 +127,7 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     mismatch: 'Les mots de passe ne correspondent pas.',
     activateFail: 'Impossible d’activer AMI.',
     planNav: 'Navigation ($19)',
-    planCal: 'Precision Calibration ($49)',
+    planCal: 'Calibration de précision ($49)',
   },
   it: {
     title: 'Attiva e scarica AMI',
@@ -151,13 +151,30 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     verifyFail: 'Impossibile verificare il pagamento.',
     mismatch: 'Le password non coincidono.',
     activateFail: 'Impossibile attivare AMI.',
-    planNav: 'Navigation ($19)',
-    planCal: 'Precision Calibration ($49)',
+    planNav: 'Navigazione ($19)',
+    planCal: 'Calibrazione di precisione ($49)',
   },
 };
 
 export function resolveClaimLocale(raw: string | null | undefined): ClaimLocale {
-  const key = String(raw || 'es').slice(0, 2).toLowerCase();
+  const key = String(raw || '').slice(0, 2).toLowerCase();
   if ((claimLocales as string[]).includes(key)) return key as ClaimLocale;
   return 'es';
+}
+
+/** Prefer explicit ?lang=, then Accept-Language, then English (ES only when explicit/browser says so). */
+export function resolveClaimLocaleFromRequest(
+  preferred: string | null | undefined,
+  acceptLanguage: string | null | undefined,
+): ClaimLocale {
+  const explicit = String(preferred || '').trim();
+  if (explicit) return resolveClaimLocale(explicit);
+
+  const header = String(acceptLanguage || '');
+  for (const part of header.split(',')) {
+    const tag = part.trim().split(';')[0]?.trim().toLowerCase() || '';
+    const primary = tag.slice(0, 2);
+    if ((claimLocales as string[]).includes(primary)) return primary as ClaimLocale;
+  }
+  return 'en';
 }

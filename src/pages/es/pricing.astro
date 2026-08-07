@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PayMethods from '@components/PayMethods.astro';
+import PlayStoreOption from '@components/PlayStoreOption.astro';
+import StripeCheckoutButton from '@components/StripeCheckoutButton.astro';
 import { site } from '@data/site';
 
 const nav = site.plans.navigation;
@@ -30,16 +32,28 @@ const cal = site.plans.calibration;
         <h3>AMI Navigation</h3>
         <p class="plan-price"><strong>${nav.priceMonthly}</strong><span>/ mes</span></p>
         <p>Ruta diaria, coach, ventana y trayectoria. 14 días gratis.</p>
-        <a class="button" href={nav.paymentUrl} target="_blank" rel="noopener">Empezar Navigation — 14 días</a>
+        <StripeCheckoutButton
+          planKey={nav.planKey}
+          label="Empezar Navigation — 14 días"
+          errorLabel="No se pudo abrir el pago. Inténtalo de nuevo."
+          loadingLabel="Abriendo Stripe…"
+        />
         <PayMethods lang="es" />
+        <PlayStoreOption lang="es" />
       </article>
       <article class="plan plan-cal">
         <p class="eyebrow">Precisión</p>
         <h3>AMI Precision Calibration</h3>
         <p class="plan-price"><strong>${cal.priceMonthly}</strong><span>/ mes</span></p>
         <p>Todo Navigation + labs, ratios y calibración. 14 días gratis.</p>
-        <a class="button" href={cal.paymentUrl} target="_blank" rel="noopener">Empezar Calibration — 14 días</a>
+        <StripeCheckoutButton
+          planKey={cal.planKey}
+          label="Empezar Calibration — 14 días"
+          errorLabel="No se pudo abrir el pago. Inténtalo de nuevo."
+          loadingLabel="Abriendo Stripe…"
+        />
         <PayMethods lang="es" />
+        <PlayStoreOption lang="es" />
       </article>
     </div>
   </section>

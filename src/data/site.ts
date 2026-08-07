@@ -29,6 +29,7 @@ export const site = {
     founder: 'noelmontealegre@novahodos.com',
     hello: 'hello@novahodos.com',
     help: 'help@novahodos.com',
+    support: 'support@novahodos.com',
     contact: 'contact@novahodos.com',
     privacy: 'privacy@novahodos.com',
     legal: 'legal@novahodos.com',

@@ -10,6 +10,9 @@
   <url><loc>https://novahodos.com/contact</loc></url>
   <url><loc>https://novahodos.com/legal</loc></url>
   <url><loc>https://novahodos.com/privacy</loc></url>
+  <url><loc>https://novahodos.com/claim</loc></url>
+  <url><loc>https://novahodos.com/delete-account</loc></url>
+  <url><loc>https://novahodos.com/eliminar-cuenta</loc></url>
   <url><loc>https://novahodos.com/es</loc></url>
   <url><loc>https://novahodos.com/es/ami</loc></url>
   <url><loc>https://novahodos.com/es/ami/how-it-works</loc></url>
@@ -20,4 +23,9 @@
   <url><loc>https://novahodos.com/es/contact</loc></url>
   <url><loc>https://novahodos.com/es/legal</loc></url>
   <url><loc>https://novahodos.com/es/privacy</loc></url>
+  <url><loc>https://novahodos.com/es/claim</loc></url>
+  <url><loc>https://novahodos.com/en/claim</loc></url>
+  <url><loc>https://novahodos.com/pt/claim</loc></url>
+  <url><loc>https://novahodos.com/fr/claim</loc></url>
+  <url><loc>https://novahodos.com/it/claim</loc></url>
 </urlset>

@@ -1,14 +1,13 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import ProductImage from '@components/ProductImage.astro';
-import { site } from '@data/site';
 ---
 <BaseLayout title="AMI Experience" description="A public-safe product presentation of AMI capabilities." lang="en">
   <section class="section hero">
     <p class="eyebrow">AMI Experience</p>
     <h1>Visualize your trajectory. You set the pace.</h1>
     <p class="lede">AMI uses mathematical models and purpose-built visuals to map your trajectory. If your metrics change or you miss the window, it recalculates the route. When you add labs, it sharpens directional context — without imposing a fixed destination.</p>
-    <div class="actions"><a class="button" href={site.playStoreUrl} target="_blank" rel="noopener">Start 14-day free trial</a><a class="button secondary" href="/ami/science">Read the Science</a></div>
+    <div class="actions"><a class="button" href="/pricing">Start 14-day free trial</a><a class="button secondary" href="/ami/science">Read the Science</a></div>
   </section>
 
   <section class="section split">

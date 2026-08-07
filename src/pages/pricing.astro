@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PayMethods from '@components/PayMethods.astro';
+import PlayStoreOption from '@components/PlayStoreOption.astro';
+import StripeCheckoutButton from '@components/StripeCheckoutButton.astro';
 import { site } from '@data/site';
 
 const nav = site.plans.navigation;
@@ -30,16 +32,28 @@ const cal = site.plans.calibration;
         <h3>AMI Navigation</h3>
         <p class="plan-price"><strong>${nav.priceMonthly}</strong><span>/ month</span></p>
         <p>Daily route, coach, window, and trajectory. 14-day free trial.</p>
-        <a class="button" href={nav.paymentUrl} target="_blank" rel="noopener">Start Navigation — 14 days</a>
+        <StripeCheckoutButton
+          planKey={nav.planKey}
+          label="Start Navigation — 14 days"
+          errorLabel="Checkout unavailable. Try again."
+          loadingLabel="Opening Stripe…"
+        />
         <PayMethods lang="en" />
+        <PlayStoreOption lang="en" />
       </article>
       <article class="plan plan-cal">
         <p class="eyebrow">Precision</p>
         <h3>AMI Precision Calibration</h3>
         <p class="plan-price"><strong>${cal.priceMonthly}</strong><span>/ month</span></p>
         <p>Everything in Navigation plus labs, ratios, and calibration. 14-day free trial.</p>
-        <a class="button" href={cal.paymentUrl} target="_blank" rel="noopener">Start Calibration — 14 days</a>
+        <StripeCheckoutButton
+          planKey={cal.planKey}
+          label="Start Calibration — 14 days"
+          errorLabel="Checkout unavailable. Try again."
+          loadingLabel="Opening Stripe…"
+        />
         <PayMethods lang="en" />
+        <PlayStoreOption lang="en" />
       </article>
     </div>
   </section>

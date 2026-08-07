@@ -9,25 +9,42 @@ interface Props {
 }
 
 const { title, description = site.description, canonical = Astro.url.pathname, lang = 'en' } = Astro.props;
-const t = copy[lang];
+const t = copy[lang] || copy.en;
 const pageTitle = title === site.name ? site.name : `${title} | ${site.name}`;
 const canonicalUrl = new URL(canonical, site.url).toString();
 const path = Astro.url.pathname;
-const alternatePath = lang === 'en'
-  ? `/es${path === '/' ? '' : path}`
-  : (path === '/' ? '/ami' : (path.replace(/^\/es/, '') || '/'));
-const alternateUrl = new URL(alternatePath, site.url).toString();
-const englishHref = lang === 'en' ? path : (path === '/' ? '/ami' : (path.replace(/^\/es/, '') || '/'));
-const spanishHref = lang === 'es' ? path : (path === '/' ? '/es' : '/es' + path);
-const localizeHref = (href: string) => {
-  if (lang !== 'es') return href;
-  if (path === '/' && href === '/') return '/';
-  return href === '/' ? '/es' : `/es${href}`;
+const claimLocales = ['pt', 'fr', 'it'] as const;
+const isClaimOnlyLocale = (claimLocales as readonly string[]).includes(lang);
+
+const stripLocalePrefix = (p: string) => p.replace(/^\/(es|pt|fr|it)(?=\/|$)/, '') || '/';
+const withLocalePrefix = (locale: string, href: string) => {
+  if (href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:')) return href;
+  if (locale === 'en') return href;
+  if (locale === 'es') return href === '/' ? '/es' : `/es${href}`;
+  // pt/fr/it: full marketing trees do not exist yet — send home/pricing/claim to localized claim.
+  if (href === '/' || href === '/ami' || href === '/pricing' || href === '/claim' || href.startsWith('/claim')) {
+    return `/${locale}/claim`;
+  }
+  return href;
 };
+
+const englishHref = lang === 'en' ? path : (path === '/' ? '/ami' : (stripLocalePrefix(path) || '/'));
+const spanishHref = lang === 'es' ? path : withLocalePrefix('es', stripLocalePrefix(path) || '/');
+const portugueseHref = withLocalePrefix('pt', stripLocalePrefix(path) || '/');
+const frenchHref = withLocalePrefix('fr', stripLocalePrefix(path) || '/');
+const italianHref = withLocalePrefix('it', stripLocalePrefix(path) || '/');
+
+const localizeHref = (href: string) => withLocalePrefix(lang, href);
 const playStoreUrl = site.playStoreUrl;
-const headerCtaHref = site.checkoutUrl || playStoreUrl;
+const headerCtaHref = localizeHref(site.checkoutUrl || playStoreUrl);
 const headerCtaLabel = t.nav.cta;
-const visibleNavItems = navItems;
+// pt/fr/it are claim-first: avoid a full marketing nav that pretends localized trees exist.
+const visibleNavItems = isClaimOnlyLocale
+  ? ([{ key: 'pricing' as const, href: '/pricing' }] as typeof navItems)
+  : navItems;
+const visibleFooterItems = isClaimOnlyLocale
+  ? footerItems.filter((item) => ['pricing', 'faq', 'contact', 'privacy', 'legal'].includes(String(item.key)))
+  : footerItems;
 ---
 <!doctype html>
 <html lang={lang}>
@@ -38,7 +55,11 @@ const visibleNavItems = navItems;
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang={lang} href={canonicalUrl} />
-    <link rel="alternate" hreflang={lang === 'en' ? 'es' : 'en'} href={alternateUrl} />
+    <link rel="alternate" hreflang="en" href={new URL(englishHref, site.url).toString()} />
+    <link rel="alternate" hreflang="es" href={new URL(spanishHref, site.url).toString()} />
+    <link rel="alternate" hreflang="pt" href={new URL('/pt/claim', site.url).toString()} />
+    <link rel="alternate" hreflang="fr" href={new URL('/fr/claim', site.url).toString()} />
+    <link rel="alternate" hreflang="it" href={new URL('/it/claim', site.url).toString()} />
     <link rel="alternate" hreflang="x-default" href={new URL('/', site.url).toString()} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
@@ -58,14 +79,20 @@ const visibleNavItems = navItems;
         {visibleNavItems.map((item) => <a href={localizeHref(item.href)}>{t.nav[item.key]}</a>)}
       </nav>
       <div class="header-actions">
-        <div class="language-switch" aria-label="Language selector"><a class:list={["lang-option", { active: lang === "es" }]} href={spanishHref}>Español</a><a class:list={["lang-option", { active: lang === "en" }]} href={englishHref}>English</a></div>
-        <a class="header-cta" href={headerCtaHref} target="_blank" rel="noopener">{headerCtaLabel}</a>
+        <div class="language-switch" aria-label="Language selector">
+          <a class:list={['lang-option', { active: lang === 'es' }]} href={spanishHref}>Español</a>
+          <a class:list={['lang-option', { active: lang === 'en' }]} href={englishHref}>English</a>
+          <a class:list={['lang-option', { active: lang === 'pt' }]} href={portugueseHref}>Português</a>
+          <a class:list={['lang-option', { active: lang === 'fr' }]} href={frenchHref}>Français</a>
+          <a class:list={['lang-option', { active: lang === 'it' }]} href={italianHref}>Italiano</a>
+        </div>
+        <a class="header-cta" href={headerCtaHref}>{headerCtaLabel}</a>
       </div>
     </header>
     <main><slot /></main>
     <footer class="site-footer">
       <div><strong>NOVAHODOS</strong><p>{t.footer.note}</p></div>
-      <nav aria-label="Footer navigation">{footerItems.map((item) => <a href={localizeHref(item.href)}>{t.footer[item.key]}</a>)}</nav>
+      <nav aria-label="Footer navigation">{visibleFooterItems.map((item) => <a href={localizeHref(item.href)}>{t.footer[item.key]}</a>)}</nav>
       <small>© NOVAHODOS</small>
     </footer>
   </body>
@@ -84,8 +111,8 @@ const visibleNavItems = navItems;
   .site-header nav, .site-footer nav { display: flex; flex-wrap: wrap; gap: 18px; color: var(--muted); font-size: 0.94rem; }
   .site-header nav a:hover, .site-footer nav a:hover { color: var(--text); }
   .header-actions { display: flex; gap: 10px; align-items: center; }
-  .language-switch { min-height: 42px; border: 1px solid rgba(92,200,255,0.28); border-radius: 999px; display: inline-flex; align-items: center; padding: 3px; gap: 3px; background: linear-gradient(135deg, rgba(92,200,255,0.12), rgba(50,213,131,0.10)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 32px rgba(0,0,0,0.18); }
-  .lang-option { min-height: 34px; padding: 0 12px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); font-weight: 900; font-size: 0.82rem; letter-spacing: 0.01em; }
+  .language-switch { min-height: 42px; border: 1px solid rgba(92,200,255,0.28); border-radius: 999px; display: inline-flex; flex-wrap: wrap; align-items: center; justify-content: center; padding: 3px; gap: 3px; max-width: min(100%, 420px); background: linear-gradient(135deg, rgba(92,200,255,0.12), rgba(50,213,131,0.10)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 32px rgba(0,0,0,0.18); }
+  .lang-option { min-height: 34px; padding: 0 10px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; color: var(--muted); font-weight: 900; font-size: 0.78rem; letter-spacing: 0.01em; }
   .lang-option.active { color: #03110d; background: var(--green); }
   .header-cta, .button { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; min-height: 44px; padding: 0 20px; background: var(--green); color: #03110d; font-weight: 850; box-shadow: 0 14px 40px rgba(50,213,131,0.18); }
   .button.secondary { background: transparent; color: var(--text); border: 1px solid var(--line); box-shadow: none; }

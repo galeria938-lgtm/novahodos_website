@@ -1,20 +1,30 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import ClaimActivate from '@components/ClaimActivate.astro';
-import { claimCopy, resolveClaimLocale } from '@data/claimI18n';
+import { claimCopy } from '@data/claimI18n';
 
-const requested = Astro.url.searchParams.get('lang');
-const locale = resolveClaimLocale(requested || 'es');
-const t = claimCopy[locale];
-
-if (requested && locale !== 'es') {
-  const q = new URLSearchParams(Astro.url.searchParams);
-  q.delete('lang');
-  const qs = q.toString();
-  return Astro.redirect(`/${locale}/claim${qs ? `?${qs}` : ''}`);
-}
+// This project is static. Runtime query parameters and Accept-Language are
+// unavailable during Astro's build, so /claim renders a safe English fallback
+// and the inline script below performs locale routing while preserving session_id.
+const t = claimCopy.en;
 ---
 
-<BaseLayout title={t.title} description={t.description} lang="es">
-  <ClaimActivate locale={locale} />
+<BaseLayout title={t.title} description={t.description} lang="en">
+  <script is:inline>
+    (() => {
+      const supported = new Set(['es', 'en', 'pt', 'fr', 'it']);
+      const url = new URL(window.location.href);
+      const requested = (url.searchParams.get('lang') || '').slice(0, 2).toLowerCase();
+      const browser = (navigator.languages?.[0] || navigator.language || 'en').slice(0, 2).toLowerCase();
+      const locale = supported.has(requested)
+        ? requested
+        : (supported.has(browser) ? browser : 'en');
+      url.searchParams.delete('lang');
+      if (locale !== 'en') {
+        const query = url.searchParams.toString();
+        window.location.replace(`/${locale}/claim${query ? `?${query}` : ''}`);
+      }
+    })();
+  </script>
+  <ClaimActivate locale="en" />
 </BaseLayout>

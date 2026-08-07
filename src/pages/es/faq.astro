@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { site } from '@data/site';
+import PlayStoreOption from '@components/PlayStoreOption.astro';
 const faqs = [
   ['¿AMI ya está disponible?', 'Sí. AMI está disponible en Google Play. Puedes iniciar 14 días gratis para ver tu señal — no para prometer milagros.'],
   ['¿Necesito laboratorios?', 'Puedes empezar con tu contexto actual y recalibrar después cuando tengas laboratorios.'],
@@ -13,5 +13,5 @@ const faqs = [
 <BaseLayout title="FAQ" description="Preguntas frecuentes sobre AMI y NOVAHODOS." lang="es">
   <section class="section hero compact-hero"><p class="eyebrow">FAQ</p><h1>Preguntas simples. Respuestas claras.</h1><p class="lede">AMI es un sistema de navegación metabólica honesta: señales, trayectoria, ritmo tuyo.</p></section>
   <section class="section stack">{faqs.map(([q, a]) => <article class="card"><h2>{q}</h2><p>{a}</p></article>)}</section>
-  <section class="section card highlight"><p class="eyebrow">Siguiente paso</p><h2>Ve tu señal durante 14 días.</h2><div class="actions"><a class="button" href={site.playStoreUrl} target="_blank" rel="noopener">Iniciar 14 días gratis</a></div></section>
+  <section class="section card highlight"><p class="eyebrow">Siguiente paso</p><h2>Ve tu señal durante 14 días.</h2><div class="actions"><a class="button" href="/es/pricing">Iniciar 14 días gratis</a></div><PlayStoreOption lang="es" /></section>
 </BaseLayout>
