@@ -1,0 +1,90 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const axioms = [
+  { n: '01', label: 'Problème', quote: 'Votre métabolisme ne répond pas aux promesses. Il répond aux signaux.', note: 'Aucun résultat promis : AMI montre une trajectoire. Chaque signal est individuel.', tag: 'Trajectoire' },
+  { n: '02', label: 'Honnêteté', quote: 'La crédibilité est le seul actif qui scale. Le mensonge est un accélérateur qui s’épuise.', note: 'Quand le signal est faible, AMI ralentit. Des fourchettes, pas une fausse précision.', tag: 'CredibilityLayer' },
+  { n: '03', label: 'Utilisateur', quote: 'La punition provoque l’abandon. La compréhension crée l’adhésion.', note: 'Safety Gate protège. Coaching en langage humain — sans culpabilité.', tag: 'Safety Gate' },
+  { n: '04', label: 'Temps', quote: 'La direction compte plus que le temps.', note: 'Le progrès est un changement de cap — pas des heures accumulées.', tag: 'Direction' },
+  { n: '05', label: 'Confiance', quote: 'Nous ne rivalisons pas avec des chronomètres. Nous rivalisons avec la confiance.', note: 'Qualité du signal et capacité de navigation — pas de théâtre de séries.', tag: 'Confiance métabolique' },
+];
+---
+<BaseLayout
+  title="AMI"
+  description="AMI est un système de navigation métabolique honnête qui écoute les signaux, montre une trajectoire et respecte votre rythme."
+  lang="fr"
+>
+  <section class="section hero compact-hero ami-product-hero axioma-hero">
+    <p class="eyebrow">Produit AMI</p>
+    <h1>Votre métabolisme ne répond pas aux promesses.<br /><span class="accent">Il répond aux signaux.</span></h1>
+    <p class="lede">Navigation métabolique honnête : trajectoire, votre rythme, sans punition.</p>
+    <div class="actions">
+      <a class="button" href="/fr/pricing">Essai gratuit 14 jours</a>
+      <a class="button secondary" href="/fr/faq">FAQ</a>
+    </div>
+  </section>
+
+  <section class="section axioma-metrics" aria-label="Signaux du système">
+    <div class="metric"><strong>14</strong><span>Jours pour voir votre signal</span></div>
+    <div class="metric"><strong>$19 / $49</strong><span>Navigation · Calibration</span></div>
+    <div class="metric"><strong>0</strong><span>Matériel requis</span></div>
+    <div class="metric"><strong>2</strong><span>Canaux : web et Play</span></div>
+  </section>
+
+  <section class="section axiomas-block" id="axiomas">
+    <p class="eyebrow">Fondations</p>
+    <h2>Des vérités claires.<br />Zéro promesse vide.</h2>
+    <p class="axiomas-oneliner">AMI écoute les signaux, montre une trajectoire, respecte le rythme de l’utilisateur et scale parce que la confiance n’a pas besoin d’entretien.</p>
+    <div class="axioma-spine">
+      {axioms.map((item) => (
+        <article class="axioma-beat" data-axioma={item.n}>
+          <div class="axioma-index">{item.n}</div>
+          <div>
+            <div class="axioma-label">{item.label}</div>
+            <p class="axioma-quote">{item.quote}</p>
+            <p class="axioma-note">{item.note}</p>
+            <span class="axioma-tag">{item.tag}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="axioma-disclaimer">L’autophagie et le BioAge dans AMI sont des estimations scientifiques basées sur des signaux — pas des mesures cliniques.</p>
+  </section>
+
+  <section class="section card blue-card">
+    <p class="eyebrow">Cycle produit</p>
+    <h2>Deux modes. Une boucle.</h2>
+    <p>Navigation est le mode quotidien. Precision Calibration utilise les analyses pour affiner la direction. Vous montez et descendez sans punition.</p>
+    <div class="cycle"><span>Navigation</span><strong>-></strong><span>Precision Calibration</span><strong>-></strong><span>Retour à Navigation</span></div>
+  </section>
+
+  <section class="section card highlight">
+    <p class="eyebrow">Commencez avec ce que vous avez</p>
+    <h2>AMI navigue. Vous fixez le rythme.</h2>
+    <p>Commencez avec le contexte d’aujourd’hui. Le système est conçu pour la continuité, pas l’imposition.</p>
+    <div class="actions">
+      <a class="button" href="/fr/pricing">Voir les tarifs</a>
+      <a class="button secondary" href="/privacy">Confidentialité</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .axioma-hero .accent { color: #00FF94; }
+  .axioma-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+  .axioma-metrics .metric { border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px; background: rgba(0, 255, 148, 0.04); display: grid; gap: 6px; }
+  .axioma-metrics strong { font-size: 1.4rem; color: #00FF94; }
+  .axioma-metrics span { color: var(--muted); font-size: 0.92rem; }
+  .axiomas-block h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.1; margin: 0 0 18px; }
+  .axiomas-oneliner { max-width: 46rem; border-left: 2px solid #00FF94; padding-left: 16px; color: var(--text); font-size: 1.08rem; line-height: 1.55; margin: 0 0 34px; }
+  .axioma-spine { position: relative; display: grid; gap: 8px; }
+  .axioma-spine::before { content: ''; position: absolute; left: 19px; top: 10px; bottom: 10px; width: 1px; background: linear-gradient(180deg, #00FF94, transparent 95%); opacity: 0.35; }
+  .axioma-beat { display: grid; grid-template-columns: 40px 1fr; gap: 14px; border: 1px solid var(--line); border-radius: 14px; padding: 16px; background: rgba(255,255,255,0.03); }
+  .axioma-index { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; font-weight: 900; color: #03110d; background: #00FF94; }
+  .axioma-label { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 850; }
+  .axioma-quote { color: var(--text); font-size: 1.05rem; margin: 6px 0; }
+  .axioma-note { margin: 0 0 10px; }
+  .axioma-tag { display: inline-flex; border: 1px solid rgba(0,255,148,0.35); border-radius: 999px; padding: 4px 10px; font-size: 0.75rem; color: #00FF94; font-weight: 800; }
+  .axioma-disclaimer { margin-top: 22px; color: var(--muted); font-size: 0.92rem; }
+  @media (max-width: 800px) { .axioma-metrics { grid-template-columns: 1fr 1fr; } }
+</style>

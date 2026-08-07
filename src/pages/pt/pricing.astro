@@ -1,0 +1,45 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PayMethods from '@components/PayMethods.astro';
+import PlayStoreOption from '@components/PlayStoreOption.astro';
+import StripeCheckoutButton from '@components/StripeCheckoutButton.astro';
+import { site } from '@data/site';
+
+const nav = site.plans.navigation;
+const cal = site.plans.calibration;
+---
+<BaseLayout
+  title="Preços"
+  description="AMI Navigation $19 e Precision Calibration $49. Trial de 14 dias na web."
+  lang="pt"
+>
+  <section class="section hero compact-hero">
+    <p class="eyebrow">Preços · Canal web</p>
+    <h1>Escolha como quer navegar.</h1>
+    <p class="lede">Comece na web com 14 dias grátis. Hoje $0. Depois o Stripe cobra o plano automaticamente.</p>
+  </section>
+  <section class="section" id="plans">
+    <div class="pricing-plans">
+      <article class="plan plan-nav">
+        <h3>AMI Navigation</h3>
+        <p class="plan-price"><strong>${nav.priceMonthly}</strong><span>/ mês</span></p>
+        <StripeCheckoutButton planKey={nav.planKey} label="Iniciar Navigation — 14 dias" errorLabel="Checkout indisponível." loadingLabel="Abrindo Stripe…" />
+        <PayMethods lang="pt" />
+        <PlayStoreOption lang="pt" />
+      </article>
+      <article class="plan plan-cal">
+        <h3>AMI Precision Calibration</h3>
+        <p class="plan-price"><strong>${cal.priceMonthly}</strong><span>/ mês</span></p>
+        <StripeCheckoutButton planKey={cal.planKey} label="Iniciar Calibration — 14 dias" errorLabel="Checkout indisponível." loadingLabel="Abrindo Stripe…" />
+        <PayMethods lang="pt" />
+        <PlayStoreOption lang="pt" />
+      </article>
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .pricing-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+  .plan { border: 1px solid var(--line); border-radius: 8px; padding: 28px 24px; display: grid; gap: 12px; }
+  .plan-price strong { font-size: 2.6rem; color: #00ff94; }
+  @media (max-width: 800px) { .pricing-plans { grid-template-columns: 1fr; } }
+</style>

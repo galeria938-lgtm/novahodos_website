@@ -1,0 +1,17 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PlayStoreOption from '@components/PlayStoreOption.astro';
+const faqs = [
+  ['AMI est-elle disponible maintenant ?', 'Oui. Vous pouvez commencer sur le site NOVAHODOS (paiement web via Stripe) ou installer AMI depuis Google Play. Chaque canal gère son propre abonnement et les deux incluent 14 jours gratuits.'],
+  ['Ai-je besoin d’analyses ?', 'Vous pouvez commencer avec votre contexte actuel et recalibrer plus tard lorsque des analyses sont disponibles.'],
+  ['Et si je romps le jeûne ?', 'AMI recalcule votre route et transforme la décision suivante en nouveau point de contrôle. Pas de punition — la compréhension crée l’adhésion.'],
+  ['Que fait le coach ?', 'Il traduit votre route et vos métriques en guidance quotidienne pratique. Vous fixez le rythme ; AMI navigue.'],
+  ['Navigation ou Precision Calibration ?', 'Navigation ($19) se concentre sur la route quotidienne. Precision Calibration ($49) ajoute une observabilité plus profonde avec les analyses. Les deux incluent 14 jours gratuits. Naviguez, calibrez, naviguez à nouveau.'],
+  ['Que deviennent mes données ?', 'AMI explique le stockage, la restauration, le consentement et la suppression dans l’app et sur /privacy. AMI n’est pas un dispositif médical et ne diagnostique ni ne traite aucune maladie.'],
+];
+---
+<BaseLayout title="FAQ" description="Questions fréquentes sur AMI et NOVAHODOS." lang="fr">
+  <section class="section hero compact-hero"><p class="eyebrow">FAQ</p><h1>Questions simples. Réponses claires.</h1><p class="lede">AMI est un système de navigation métabolique honnête : signaux, trajectoire, votre rythme.</p></section>
+  <section class="section stack">{faqs.map(([q, a]) => <article class="card"><h2>{q}</h2><p>{a}</p></article>)}</section>
+  <section class="section card highlight"><p class="eyebrow">Étape suivante</p><h2>Voyez votre signal pendant 14 jours.</h2><div class="actions"><a class="button" href="/fr/pricing">Essai gratuit 14 jours</a></div><PlayStoreOption lang="fr" /></section>
+</BaseLayout>

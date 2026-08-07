@@ -19,6 +19,8 @@ const t = claimCopy[locale];
   data-msg-verify={t.verifyFail}
   data-msg-mismatch={t.mismatch}
   data-msg-activate={t.activateFail}
+  data-msg-email-exists={t.emailExists}
+  data-msg-play-conflict={t.playConflict}
   data-msg-busy={t.busy}
   data-msg-submit={t.submit}
   data-plan-nav={t.planNav}
@@ -26,7 +28,7 @@ const t = claimCopy[locale];
 >
   <div class="claim-card">
     <p class="lang-switch" aria-label="Language">
-      <a href={`/claim${Astro.url.search}`}>ES</a>
+      <a href={`/es/claim${Astro.url.search}`}>ES</a>
       <a href={`/en/claim${Astro.url.search}`}>EN</a>
       <a href={`/pt/claim${Astro.url.search}`}>PT</a>
       <a href={`/fr/claim${Astro.url.search}`}>FR</a>
@@ -62,7 +64,7 @@ const t = claimCopy[locale];
       <p>{t.successBody}</p>
       <div class="actions">
         <a class="button" href={site.androidApkUrl} download>{t.downloadApk}</a>
-        <a class="button secondary" href={site.webAppUrl}>{t.openWeb}</a>
+        <a class="button secondary" data-open-web href={site.webAppUrl}>{t.openWeb}</a>
       </div>
       <p class="install-note">{t.installNote}</p>
     </div>
@@ -83,6 +85,8 @@ const t = claimCopy[locale];
       verify: root.dataset.msgVerify || '',
       mismatch: root.dataset.msgMismatch || '',
       activate: root.dataset.msgActivate || '',
+      emailExists: root.dataset.msgEmailExists || '',
+      playConflict: root.dataset.msgPlayConflict || '',
       busy: root.dataset.msgBusy || '',
       submit: root.dataset.msgSubmit || '',
       planNav: root.dataset.planNav || 'Navigation ($19)',
@@ -103,7 +107,13 @@ const t = claimCopy[locale];
       })
         .then(async (response) => {
           const body = await response.json().catch(() => ({}));
-          if (!response.ok) throw new Error(body.detail || msg.verify);
+          if (!response.ok) {
+            const detail = typeof body.detail === 'string' ? body.detail : '';
+            if (detail === 'billing_provider_conflict_google_play') {
+              throw new Error(msg.playConflict || msg.verify);
+            }
+            throw new Error(detail || msg.verify);
+          }
           return body;
         })
         .then((body) => {
@@ -143,7 +153,29 @@ const t = claimCopy[locale];
           body: JSON.stringify({ session_id: sessionId, password }),
         });
         const body = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(body.detail || msg.activate);
+        if (!response.ok) {
+          const detail = typeof body.detail === 'string' ? body.detail : '';
+          if (detail === 'claim_email_password_mismatch') {
+            throw new Error(msg.emailExists || msg.activate);
+          }
+          if (detail === 'billing_provider_conflict_google_play') {
+            throw new Error(msg.playConflict || msg.activate);
+          }
+          throw new Error(detail || msg.activate);
+        }
+        // Session handoff: pass the account token to the product app via URL
+        // fragment (never sent to any server) so "Open web" arrives logged in.
+        const openWeb = root.querySelector<HTMLAnchorElement>('[data-open-web]');
+        if (openWeb && body.account_token) {
+          const base = (openWeb.getAttribute('href') || '').replace(/\/+$/, '');
+          const handoff = new URLSearchParams({
+            token: String(body.account_token),
+            plan: String(body.plan_key || ''),
+            status: String(body.plan_status || 'active'),
+            lang: root.dataset.locale || 'es',
+          });
+          openWeb.href = `${base}/claim#${handoff.toString()}`;
+        }
         form.setAttribute('hidden', '');
         if (preview) preview.setAttribute('hidden', '');
         if (success) success.removeAttribute('hidden');

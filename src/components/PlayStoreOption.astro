@@ -6,9 +6,14 @@ interface Props {
 }
 
 const { lang = 'en' } = Astro.props;
-const label = lang === 'es'
-  ? 'También disponible en Google Play'
-  : 'Also available on Google Play';
+const labelByLang: Record<string, string> = {
+  en: 'Also available on Google Play',
+  es: 'También disponible en Google Play',
+  pt: 'Também disponível no Google Play',
+  fr: 'Aussi disponible sur Google Play',
+  it: 'Disponibile anche su Google Play',
+};
+const label = labelByLang[lang] || labelByLang.en;
 ---
 
 <a

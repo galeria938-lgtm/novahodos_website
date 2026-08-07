@@ -24,6 +24,8 @@ export type ClaimCopy = {
   verifyFail: string;
   mismatch: string;
   activateFail: string;
+  emailExists: string;
+  playConflict: string;
   planNav: string;
   planCal: string;
 };
@@ -51,6 +53,8 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     verifyFail: 'No se pudo verificar el pago.',
     mismatch: 'Las contraseñas no coinciden.',
     activateFail: 'No se pudo activar AMI.',
+    emailExists: 'Este correo ya tiene una cuenta AMI. Escribe la contraseña de esa cuenta para activar tu plan.',
+    playConflict: 'Esta cuenta ya tiene una suscripción activa en Google Play. No se puede activar otro plan con Stripe.',
     planNav: 'Navegación ($19)',
     planCal: 'Calibración de Precisión ($49)',
   },
@@ -76,6 +80,8 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     verifyFail: 'Could not verify payment.',
     mismatch: 'Passwords do not match.',
     activateFail: 'Could not activate AMI.',
+    emailExists: 'This email already has an AMI account. Enter that account\u2019s password to activate your plan.',
+    playConflict: 'This account already has an active Google Play subscription. Another Stripe plan cannot be activated.',
     planNav: 'Navigation ($19)',
     planCal: 'Precision Calibration ($49)',
   },
@@ -101,6 +107,8 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     verifyFail: 'Não foi possível verificar o pagamento.',
     mismatch: 'As senhas não coincidem.',
     activateFail: 'Não foi possível ativar o AMI.',
+    emailExists: 'Este e-mail já tem uma conta AMI. Digite a senha dessa conta para ativar seu plano.',
+    playConflict: 'Esta conta já tem uma assinatura ativa no Google Play. Não é possível ativar outro plano com Stripe.',
     planNav: 'Navegação ($19)',
     planCal: 'Calibração de Precisão ($49)',
   },
@@ -126,6 +134,8 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     verifyFail: 'Impossible de vérifier le paiement.',
     mismatch: 'Les mots de passe ne correspondent pas.',
     activateFail: 'Impossible d’activer AMI.',
+    emailExists: 'Cet e-mail a déjà un compte AMI. Saisissez le mot de passe de ce compte pour activer votre offre.',
+    playConflict: 'Ce compte a déjà un abonnement Google Play actif. Un autre forfait Stripe ne peut pas être activé.',
     planNav: 'Navigation ($19)',
     planCal: 'Calibration de précision ($49)',
   },
@@ -151,6 +161,8 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     verifyFail: 'Impossibile verificare il pagamento.',
     mismatch: 'Le password non coincidono.',
     activateFail: 'Impossibile attivare AMI.',
+    emailExists: 'Questa email ha già un account AMI. Inserisci la password di quell\u2019account per attivare il piano.',
+    playConflict: 'Questo account ha già un abbonamento attivo su Google Play. Non si può attivare un altro piano con Stripe.',
     planNav: 'Navigazione ($19)',
     planCal: 'Calibrazione di precisione ($49)',
   },

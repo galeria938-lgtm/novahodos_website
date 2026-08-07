@@ -13,36 +13,69 @@ const t = copy[lang] || copy.en;
 const pageTitle = title === site.name ? site.name : `${title} | ${site.name}`;
 const canonicalUrl = new URL(canonical, site.url).toString();
 const path = Astro.url.pathname;
-const claimLocales = ['pt', 'fr', 'it'] as const;
-const isClaimOnlyLocale = (claimLocales as readonly string[]).includes(lang);
+const partialLocales = ['pt', 'fr', 'it'] as const;
+const isPartialLocale = (partialLocales as readonly string[]).includes(lang);
+// Localized tree for pt/fr/it: /ami, /faq, /pricing, /claim. Everything else → EN.
+const PARTIAL_LOCALIZED = new Set(['/ami', '/faq', '/pricing', '/claim']);
 
-const stripLocalePrefix = (p: string) => p.replace(/^\/(es|pt|fr|it)(?=\/|$)/, '') || '/';
+const normalizePath = (p: string) => {
+  if (p.length > 1 && p.endsWith('/')) return p.slice(0, -1);
+  return p || '/';
+};
+const pathNorm = normalizePath(path);
+const stripLocalePrefix = (p: string) => normalizePath(p).replace(/^\/(es|en|pt|fr|it)(?=\/|$)/, '') || '/';
 const withLocalePrefix = (locale: string, href: string) => {
   if (href.startsWith('http') || href.startsWith('#') || href.startsWith('mailto:')) return href;
-  if (locale === 'en') return href;
-  if (locale === 'es') return href === '/' ? '/es' : `/es${href}`;
-  // pt/fr/it: full marketing trees do not exist yet — send home/pricing/claim to localized claim.
-  if (href === '/' || href === '/ami' || href === '/pricing' || href === '/claim' || href.startsWith('/claim')) {
-    return `/${locale}/claim`;
-  }
-  return href;
+  const h = normalizePath(href);
+  if (locale === 'en') return h === '/claim' ? '/en/claim' : h;
+  if (locale === 'es') return h === '/' ? '/es/ami' : `/es${h}`;
+  if (h === '/' || h === '/ami') return `/${locale}/ami`;
+  if (h === '/faq') return `/${locale}/faq`;
+  if (h === '/pricing') return `/${locale}/pricing`;
+  if (h === '/claim' || h.startsWith('/claim')) return `/${locale}/claim`;
+  // how-it-works / science / experience / legal / contact stay on EN.
+  return h;
 };
 
-const englishHref = lang === 'en' ? path : (path === '/' ? '/ami' : (stripLocalePrefix(path) || '/'));
-const spanishHref = lang === 'es' ? path : withLocalePrefix('es', stripLocalePrefix(path) || '/');
-const portugueseHref = withLocalePrefix('pt', stripLocalePrefix(path) || '/');
-const frenchHref = withLocalePrefix('fr', stripLocalePrefix(path) || '/');
-const italianHref = withLocalePrefix('it', stripLocalePrefix(path) || '/');
+const basePath = stripLocalePrefix(pathNorm);
+const englishHref = lang === 'en' ? pathNorm : withLocalePrefix('en', basePath);
+const spanishHref = lang === 'es' ? pathNorm : withLocalePrefix('es', basePath);
+const portugueseHref = withLocalePrefix('pt', basePath);
+const frenchHref = withLocalePrefix('fr', basePath);
+const italianHref = withLocalePrefix('it', basePath);
+
+const partialLocaleHasPage =
+  PARTIAL_LOCALIZED.has(basePath) || basePath.startsWith('/claim');
+const hreflangAlternates: Array<[string, string]> = [
+  ['en', englishHref],
+  ['es', spanishHref],
+  ...(partialLocaleHasPage
+    ? ([
+        ['pt', portugueseHref],
+        ['fr', frenchHref],
+        ['it', italianHref],
+      ] as Array<[string, string]>)
+    : []),
+];
 
 const localizeHref = (href: string) => withLocalePrefix(lang, href);
+const footerHref = (href: string) => {
+  if (!isPartialLocale) return localizeHref(href);
+  const h = normalizePath(href);
+  if (h === '/pricing' || h === '/faq') return `/${lang}${h}`;
+  return h; // legal/privacy/contact → real EN pages
+};
+const homeHref = lang === 'es' ? '/es/ami' : lang === 'en' ? '/ami' : `/${lang}/ami`;
 const playStoreUrl = site.playStoreUrl;
-const headerCtaHref = localizeHref(site.checkoutUrl || playStoreUrl);
+const headerCtaHref = isPartialLocale ? `/${lang}/pricing` : localizeHref(site.checkoutUrl || playStoreUrl);
 const headerCtaLabel = t.nav.cta;
-// pt/fr/it are claim-first: avoid a full marketing nav that pretends localized trees exist.
-const visibleNavItems = isClaimOnlyLocale
-  ? ([{ key: 'pricing' as const, href: '/pricing' }] as typeof navItems)
+const visibleNavItems = isPartialLocale
+  ? ([
+      { key: 'ami' as const, href: `/${lang}/ami` },
+      { key: 'pricing' as const, href: `/${lang}/pricing` },
+    ] as typeof navItems)
   : navItems;
-const visibleFooterItems = isClaimOnlyLocale
+const visibleFooterItems = isPartialLocale
   ? footerItems.filter((item) => ['pricing', 'faq', 'contact', 'privacy', 'legal'].includes(String(item.key)))
   : footerItems;
 ---
@@ -54,19 +87,18 @@ const visibleFooterItems = isClaimOnlyLocale
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" hreflang={lang} href={canonicalUrl} />
-    <link rel="alternate" hreflang="en" href={new URL(englishHref, site.url).toString()} />
-    <link rel="alternate" hreflang="es" href={new URL(spanishHref, site.url).toString()} />
-    <link rel="alternate" hreflang="pt" href={new URL('/pt/claim', site.url).toString()} />
-    <link rel="alternate" hreflang="fr" href={new URL('/fr/claim', site.url).toString()} />
-    <link rel="alternate" hreflang="it" href={new URL('/it/claim', site.url).toString()} />
-    <link rel="alternate" hreflang="x-default" href={new URL('/', site.url).toString()} />
+    {hreflangAlternates.map(([hl, href]) => (
+      <link rel="alternate" hreflang={hl} href={new URL(href, site.url).toString()} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL(englishHref, site.url).toString()} />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content={site.name} />
+    <meta property="og:image" content={new URL('/product/ami-map-safe.png', site.url).toString()} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={new URL('/product/ami-map-safe.png', site.url).toString()} />
     <meta name="theme-color" content="#071311" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -74,7 +106,7 @@ const visibleFooterItems = isClaimOnlyLocale
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href={localizeHref('/')} aria-label="NOVAHODOS home">NOVAHODOS</a>
+      <a class="brand" href={homeHref} aria-label="NOVAHODOS home">NOVAHODOS</a>
       <nav aria-label="Primary navigation">
         {visibleNavItems.map((item) => <a href={localizeHref(item.href)}>{t.nav[item.key]}</a>)}
       </nav>
@@ -92,7 +124,7 @@ const visibleFooterItems = isClaimOnlyLocale
     <main><slot /></main>
     <footer class="site-footer">
       <div><strong>NOVAHODOS</strong><p>{t.footer.note}</p></div>
-      <nav aria-label="Footer navigation">{visibleFooterItems.map((item) => <a href={localizeHref(item.href)}>{t.footer[item.key]}</a>)}</nav>
+      <nav aria-label="Footer navigation">{visibleFooterItems.map((item) => <a href={footerHref(item.href)}>{t.footer[item.key]}</a>)}</nav>
       <small>© NOVAHODOS</small>
     </footer>
   </body>

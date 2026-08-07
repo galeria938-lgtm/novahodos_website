@@ -1,0 +1,90 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const axioms = [
+  { n: '01', label: 'Problema', quote: 'Il metabolismo non risponde alle promesse. Risponde ai segnali.', note: 'Nessun risultato promesso: AMI mostra una traiettoria. Ogni segnale è individuale.', tag: 'Traiettoria' },
+  { n: '02', label: 'Onestà', quote: 'La credibilità è l’unico asset che scala. La bugia è un acceleratore che si esaurisce.', note: 'Quando il segnale è debole, AMI rallenta. Intervalli, non falsa precisione.', tag: 'CredibilityLayer' },
+  { n: '03', label: 'Utente', quote: 'La punizione genera abbandono. La comprensione genera aderenza.', note: 'Safety Gate protegge. Coaching in linguaggio umano — senza colpa.', tag: 'Safety Gate' },
+  { n: '04', label: 'Tempo', quote: 'La direzione conta più del tempo.', note: 'Il progresso è un cambio di rotta — non ore accumulate.', tag: 'Direzione' },
+  { n: '05', label: 'Fiducia', quote: 'Non competiamo con i cronometri. Competiamo con la fiducia.', note: 'Qualità del segnale e capacità di navigazione — non teatro delle serie.', tag: 'Fiducia metabolica' },
+];
+---
+<BaseLayout
+  title="AMI"
+  description="AMI è un sistema di navigazione metabolica onesta che ascolta i segnali, mostra la traiettoria e rispetta il tuo ritmo."
+  lang="it"
+>
+  <section class="section hero compact-hero ami-product-hero axioma-hero">
+    <p class="eyebrow">Prodotto AMI</p>
+    <h1>Il metabolismo non risponde alle promesse.<br /><span class="accent">Risponde ai segnali.</span></h1>
+    <p class="lede">Navigazione metabolica onesta: traiettoria, il tuo ritmo, senza punizione.</p>
+    <div class="actions">
+      <a class="button" href="/it/pricing">Prova gratuita 14 giorni</a>
+      <a class="button secondary" href="/it/faq">FAQ</a>
+    </div>
+  </section>
+
+  <section class="section axioma-metrics" aria-label="Segnali del sistema">
+    <div class="metric"><strong>14</strong><span>Giorni per vedere il segnale</span></div>
+    <div class="metric"><strong>$19 / $49</strong><span>Navigation · Calibration</span></div>
+    <div class="metric"><strong>0</strong><span>Hardware richiesto</span></div>
+    <div class="metric"><strong>2</strong><span>Canali: web e Play</span></div>
+  </section>
+
+  <section class="section axiomas-block" id="axiomas">
+    <p class="eyebrow">Fondamenta</p>
+    <h2>Verità chiare.<br />Zero promesse vuote.</h2>
+    <p class="axiomas-oneliner">AMI ascolta i segnali, mostra la traiettoria, rispetta il ritmo dell’utente e scala perché la fiducia non ha bisogno di manutenzione.</p>
+    <div class="axioma-spine">
+      {axioms.map((item) => (
+        <article class="axioma-beat" data-axioma={item.n}>
+          <div class="axioma-index">{item.n}</div>
+          <div>
+            <div class="axioma-label">{item.label}</div>
+            <p class="axioma-quote">{item.quote}</p>
+            <p class="axioma-note">{item.note}</p>
+            <span class="axioma-tag">{item.tag}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="axioma-disclaimer">Autofagia e BioAge in AMI sono stime scientifiche basate su segnali — non misurazioni cliniche.</p>
+  </section>
+
+  <section class="section card blue-card">
+    <p class="eyebrow">Ciclo prodotto</p>
+    <h2>Due modalità. Un loop.</h2>
+    <p>Navigation è la modalità quotidiana. Precision Calibration usa i laboratori per affinare la direzione. Puoi salire e scendere senza punizione.</p>
+    <div class="cycle"><span>Navigation</span><strong>-></strong><span>Precision Calibration</span><strong>-></strong><span>Di nuovo Navigation</span></div>
+  </section>
+
+  <section class="section card highlight">
+    <p class="eyebrow">Inizia con ciò che hai</p>
+    <h2>AMI naviga. Tu imposti il ritmo.</h2>
+    <p>Inizia con il contesto di oggi. Il sistema è pensato per la continuità, non per l’imposizione.</p>
+    <div class="actions">
+      <a class="button" href="/it/pricing">Vedi i prezzi</a>
+      <a class="button secondary" href="/privacy">Privacy</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .axioma-hero .accent { color: #00FF94; }
+  .axioma-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+  .axioma-metrics .metric { border: 1px solid var(--line); border-radius: 16px; padding: 18px 16px; background: rgba(0, 255, 148, 0.04); display: grid; gap: 6px; }
+  .axioma-metrics strong { font-size: 1.4rem; color: #00FF94; }
+  .axioma-metrics span { color: var(--muted); font-size: 0.92rem; }
+  .axiomas-block h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.1; margin: 0 0 18px; }
+  .axiomas-oneliner { max-width: 46rem; border-left: 2px solid #00FF94; padding-left: 16px; color: var(--text); font-size: 1.08rem; line-height: 1.55; margin: 0 0 34px; }
+  .axioma-spine { position: relative; display: grid; gap: 8px; }
+  .axioma-spine::before { content: ''; position: absolute; left: 19px; top: 10px; bottom: 10px; width: 1px; background: linear-gradient(180deg, #00FF94, transparent 95%); opacity: 0.35; }
+  .axioma-beat { display: grid; grid-template-columns: 40px 1fr; gap: 14px; border: 1px solid var(--line); border-radius: 14px; padding: 16px; background: rgba(255,255,255,0.03); }
+  .axioma-index { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; font-weight: 900; color: #03110d; background: #00FF94; }
+  .axioma-label { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 850; }
+  .axioma-quote { color: var(--text); font-size: 1.05rem; margin: 6px 0; }
+  .axioma-note { margin: 0 0 10px; }
+  .axioma-tag { display: inline-flex; border: 1px solid rgba(0,255,148,0.35); border-radius: 999px; padding: 4px 10px; font-size: 0.75rem; color: #00FF94; font-weight: 800; }
+  .axioma-disclaimer { margin-top: 22px; color: var(--muted); font-size: 0.92rem; }
+  @media (max-width: 800px) { .axioma-metrics { grid-template-columns: 1fr 1fr; } }
+</style>

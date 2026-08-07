@@ -44,7 +44,23 @@ const endpoint = `${site.billingApiUrl}/billing/public-checkout-session`;
           if (!response.ok || !body.checkout_url) {
             throw new Error(body.detail || 'checkout_unavailable');
           }
-          window.location.assign(String(body.checkout_url));
+          const raw = String(body.checkout_url);
+          let parsed;
+          try {
+            parsed = new URL(raw);
+          } catch {
+            throw new Error('checkout_unavailable');
+          }
+          const host = parsed.hostname.toLowerCase();
+          const stripeOk =
+            host === 'checkout.stripe.com'
+            || host === 'billing.stripe.com'
+            || host === 'buy.stripe.com'
+            || host.endsWith('.stripe.com');
+          if (parsed.protocol !== 'https:' || !stripeOk) {
+            throw new Error('checkout_unavailable');
+          }
+          window.location.assign(parsed.toString());
         } catch {
           if (status) status.textContent = this.dataset.errorLabel || 'Checkout unavailable.';
           button.disabled = false;

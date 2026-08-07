@@ -7,24 +7,23 @@ interface Props {
 
 const { lang = 'en' } = Astro.props;
 
-const t =
-  lang === 'es'
-    ? {
-        accepted: 'Aceptamos',
-        android: 'O compra en la tienda Android',
-      }
-    : {
-        accepted: 'We accept',
-        android: 'Or buy on the Android store',
-      };
+const copyByLang: Record<string, { accepted: string; android: string; card: string }> = {
+  en: { accepted: 'We accept', android: 'Or buy on the Android store', card: 'Card' },
+  es: { accepted: 'Aceptamos', android: 'O compra en la tienda Android', card: 'Tarjeta' },
+  pt: { accepted: 'Aceitamos', android: 'Ou compre na loja Android', card: 'Cartão' },
+  fr: { accepted: 'Nous acceptons', android: 'Ou achetez sur la boutique Android', card: 'Carte' },
+  it: { accepted: 'Accettiamo', android: 'Oppure acquista sullo store Android', card: 'Carta' },
+};
+const t = copyByLang[lang] || copyByLang.en;
 
+// Mirrors the real Checkout config: card (Apple/Google Pay included),
+// Cash App and Amazon Pay. Link is suppressed and Klarna (BNPL) cannot
+// process the $0-due-today trial, so neither is advertised.
 const methods = [
-  { id: 'card', label: lang === 'es' ? 'Tarjeta' : 'Card' },
+  { id: 'card', label: t.card },
   { id: 'apple', label: 'Apple Pay' },
   { id: 'google', label: 'Google Pay' },
-  { id: 'link', label: 'Link' },
   { id: 'cashapp', label: 'Cash App' },
-  { id: 'klarna', label: 'Klarna' },
   { id: 'amazon', label: 'Amazon Pay' },
 ];
 ---

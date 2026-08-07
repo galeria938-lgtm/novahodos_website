@@ -1,0 +1,52 @@
+---
+description: Auditoría previa obligatoria AFAI5 — claim URL, git remote, payment links, claim i18n. Reportar y esperar confirmación antes de modificar.
+alwaysApply: true
+---
+
+# AUDITORÍA PREVIA OBLIGATORIA - USA AFAI5 ANTES DE TOCAR NADA
+
+Audita y después corrige en este orden exacto:
+
+## PROBLEMA 1 - CRÍTICO: Claim URL partido
+
+El checkout de Stripe redirige a `https://ami-app-tan.vercel.app/claim` en vez de `https://novahodos.com/claim`.
+
+Audita primero:
+
+- Dónde está configurado ese redirect en el código
+- Cuántos payment links legacy tienen ese destino incorrecto
+- Si el webhook de Stripe apunta al lugar correcto
+
+Luego corrige para que TODO post-pago aterrice en `novahodos.com/claim`.
+
+**Reporta antes de tocar.**
+
+## PROBLEMA 2 - ALTO: Website sin remote git
+
+El sitio novahodos.com no tiene repositorio remoto configurado.
+
+Audita la situación actual del repo y configura el remote correcto.
+
+**Reporta antes de tocar.**
+
+## PROBLEMA 3 - MEDIO: 6 payment links activos legacy
+
+Audita cuáles de los 6 payment links son activos y cuáles son legacy.
+
+Desactiva los legacy, deja solo los correctos ($19 y $49 con trial 14 días).
+
+**Reporta antes de tocar.**
+
+## PROBLEMA 4 - MEDIO: Claim UI solo en español
+
+La página `/claim` debe estar disponible en los 5 idiomas del sistema (`es`, `en`, `pt`, `fr`, `it`).
+
+Audita el estado actual y corrige.
+
+**Reporta antes de tocar.**
+
+## REGLA
+
+Audita cada problema con AFAI5, reporta hallazgos, espera confirmación antes de modificar cualquier archivo.
+
+**No toques nada sin reportar primero.**

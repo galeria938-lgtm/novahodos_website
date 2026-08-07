@@ -1,0 +1,287 @@
+AMI - AUDITORIA INTEGRAL
+Solo lectura - 5 agosto 2026
+Web, Play, Engine, App movil, Stripe, RevenueCat, Railway/Vercel
+Sin cambios en codigo.
+
+================================================================================
+VEREDICTO
+================================================================================
+
+El ecosistema YA ES VENDIBLE tecnicamente, pero TODAVIA SIN TRACCION.
+
+- Estado comercial: Vendible
+- Instalaciones Play: 0
+- Suscripciones activas: 0
+- Usuarios RevenueCat (ultimos 28 dias): 19
+
+El embudo de venta esta cableado y en produccion.
+El riesgo principal no es que no se pueda cobrar.
+El riesgo es: inconsistencia de claim/canales, SQLite en Railway,
+e higiene de repos/sitio (imagenes, claim en espanol, website sin remote).
+
+================================================================================
+1. MAPA DEL ECOSISTEMA
+================================================================================
+
+Marca / Sitio Astro
+  URL: https://novahodos.com  (redirige a /es/ami)
+  Salud: HTTP 200
+
+Producto web / ami_app (Vite/React)
+  URL: https://ami-app-tan.vercel.app
+  Salud: HTTP 200
+
+Backend FastAPI 4.0.1-stripe
+  URL: https://amiengine-production.up.railway.app
+  Salud: health ok, identity en SQLite, Stripe configurado
+
+Play Store - AMI Metabolismo Inteligente
+  Package: com.novahodos.ami
+  Estado: Produccion, 0 usuarios instalados
+
+Cobro web - Stripe NOVAHODOS LLC
+  Cuenta: acct_1Tx7gp5HZMJZlAZw
+  Planes: $19 / $49, trial 14 dias
+
+Cobro Play - RevenueCat AMI
+  Proyecto: proj95168d13
+  App Android: appe52e37961e
+  Webhook: hacia Railway production
+
+Direct APK - AMI Direct 1.0.8
+  Package: com.novahodos.ami.direct
+  Cobro: Stripe (sin Play Billing)
+
+================================================================================
+2. CANALES DE VENTA
+================================================================================
+
+CANAL PRIMARIO - Web -> Stripe
+  Flujo: Pricing -> public-checkout-session -> Checkout ($0 hoy)
+         -> https://novahodos.com/claim
+  Planes: navigation_19_monthly / calibration_49_monthly
+
+CANAL PARALELO - Play -> RevenueCat
+  Productos: ami_navegacion_mensual / ami_calibracion_mensual
+  Entitlements: navegacion, calibracion
+  Grace period RC: P7D
+
+PAYMENT LINKS (ATENCION)
+  Hay 6 links activos (algunos legacy).
+  El redirect de claim va a:
+    https://ami-app-tan.vercel.app/claim
+  No al sitio novahodos.com/claim.
+  RIESGO: dos destinos distintos despues de pagar.
+
+================================================================================
+3. GOOGLE PLAY CONSOLE
+================================================================================
+
+- Estado app: Produccion
+- Politicas: Sin problemas
+- Ultima publicacion: 4 agosto 2026
+- Cola de revision: Vacia
+- Cuenta: Novahodos (organizacion), verificacion Android OK
+- Titulo ES vivo: AMI Metabolismo Inteligente
+- Precio Play listado: 0 (subscripciones in-app)
+- Suscripciones:
+    AMI Navegacion  (ami_navegacion_mensual)
+    AMI Precision Calibration (ami_calibracion_mensual)
+  Actualizadas: 2 agosto 2026
+- Publicacion administrada: Desactivada
+  (cambios aprobados se publican solos)
+- Pendiente: hay notificaciones no leidas en Console
+- Traccion: 0 usuarios con la app instalada
+
+================================================================================
+4. AMI ENGINE + APP MOVIL (SOLO AUDIT)
+================================================================================
+
+Fuente canonica:
+  C:\Users\noelm\Downloads\ami_engine
+  (+ submodule frontend\ami_app)
+
+El clone "ami-engine" es STALE. No usarlo.
+
+FORTALEZAS
+- Contrato de 3 canales documentado (BILLING_CHANNELS.md)
+- Autoridad de entitlements en el servidor
+- Package IDs alineados con Play: com.novahodos.ami / .direct
+- Health live: freeze_mode true, Stripe configured, identity ready
+- Webhook RevenueCat apunta a Railway production y esta activo
+
+DEBILIDADES
+- Persistencia SQLite en volumen Railway (no Postgres)
+- Solo Android (Capacitor); no hay arbol iOS
+- Sin GitHub Actions en el backend root
+  (si hay deploy Vercel en ami_app)
+- Clones, worktrees y backups multiples + residuales
+  elevan el riesgo operativo
+
+================================================================================
+5. SITIO DE VENTAS - APTITUDE PARA VENDER
+================================================================================
+
+Veredicto: SI, CON RESERVAS.
+
+OK
+- CTA claro de 14 dias
+- Stripe live
+- Pricing EN/ES alineado
+
+ATENCION
+- Claim solo en espanol
+- Imagenes de Experience faltantes
+- Root fuerza espanol (/ -> /es/ami)
+
+CRITICO
+- Website sin git remote (sin fuente de verdad remota)
+
+NOTAS
+- Conversion: funnel AMI -> Pricing -> Stripe -> /claim. Trial 14d OK.
+- Confusion: Play + APK Direct coexisten; el server bloquea double-claim.
+- Confianza: Legal marcado como en evolucion;
+  emails help@ vs support@ desalineados.
+- Assets: Experience pide /product/* pero faltan imagenes;
+  APK Direct 1.0.8 si esta.
+- Deploy: Vercel ok; website local sin origin remoto.
+
+================================================================================
+6. MATRIZ DE CONSISTENCIA
+================================================================================
+
+Nav $19
+  Web / Stripe / Play-RC / Engine = OK
+
+Cal $49
+  Web / Stripe / Play-RC / Engine = OK
+
+Trial 14 dias
+  Marketing + Checkout + oferta Play (docs) = OK*
+  * RC API muestra trial_duration null en el producto.
+    El trial de Play vive en la oferta. Verificar freetrial14.
+
+Claim URL = DRIFT
+  Sitio/checkout publico: https://novahodos.com/claim
+  Payment links: https://ami-app-tan.vercel.app/claim
+
+Package com.novahodos.ami = OK
+
+Clientes pagando = PRE-REVENUE
+  Stripe: 0 subscriptions / 0 customers
+  RevenueCat: 0 active subscriptions
+
+================================================================================
+7. CUANDO PAGAS TU (INFRA + STORES)
+================================================================================
+
+Google Play - cuenta desarrollador
+  Que: registro $25 one-time (tipicamente ya pagado)
+  Cuando: sin renovacion anual de cuenta
+  Aviso: email Google + notificaciones Play Console
+
+Google Play - comisiones
+  Que: ~15-30% sobre ventas in-app
+  Cuando: con cada cobro de usuario; payouts periodicos
+  Aviso: informes Play + email de cuenta de pagos comerciante
+
+Stripe
+  Que: fees de processing (~2.9% + $0.30 tipico US card)
+  Cuando: por transaccion exitosa; payouts a banco segun schedule
+  Aviso: email recibos/payouts + Dashboard Stripe
+
+RevenueCat
+  Que: plan de plataforma (factura no leida por falta de scope API)
+  Cuando: segun plan RC
+  Aviso: email + dashboard RevenueCat billing
+
+Railway
+  Que: suscripcion del plan + uso compute/volumen
+  Cuando: fin de ciclo mensual; a veces mid-cycle si uso alto
+  Aviso: email billing del workspace;
+         alertas 75/90/100% si configuras spend limit
+
+Vercel
+  Que: plan (Hobby/Pro) + usage si supera cuota
+  Cuando: mensual
+  Aviso: email Vercel + dashboard billing
+
+GitHub
+  Que: gratis en standard; Actions/storage si exceden
+  Cuando: mensual si hay overage o plan Team/Pro
+  Aviso: email GitHub Billing
+
+Usuario AMI ($19 / $49)
+  Que: TE PAGAN ELLOS despues del trial
+  Cuando: dia 15 del ciclo de esa suscripcion
+  Aviso: Stripe email al cliente; tu ves Dashboard / webhooks
+
+HOY
+  Balance Stripe: $0
+  Customers: 0
+  Subscriptions: 0
+  No hay cobros de clientes pendientes.
+  Solo posibles cargos actuales: infra (Railway / Vercel / RC).
+
+================================================================================
+8. HALLAZGOS POR SEVERIDAD
+================================================================================
+
+ALTA - Claim split (sitio vs ami-app-tan en payment links)
+  Impacto: usuarios post-pago aterrizan en sitios distintos
+
+ALTA - Website sin remote git
+  Impacto: sin fuente de verdad remota del canal de ventas
+
+MEDIA - SQLite identity en Railway
+  Impacto: backup/escala; riesgo frente a Postgres
+
+MEDIA - Imagenes Experience ausentes
+  Impacto: debilita pagina de confianza pre-compra
+
+MEDIA - 6 payment links activos (legado)
+  Impacto: links viejos pueden tener tax/metodos distintos
+
+MEDIA - Checkout sessions abiertas sin completar
+  Impacto: trafico de prueba; sin conversiones aun
+
+BAJA - Claim UI solo espanol
+  Impacto: friccion para usuarios EN post-Stripe
+
+BAJA - RC API sin trial_duration en producto
+  Impacto: operadores pueden creer que no hay trial Play
+
+OK - Politicas Play limpias + package/IDs alineados
+  Impacto: listo para distribucion
+
+================================================================================
+9. PRIORIDADES RECOMENDADAS (SIN EJECUTAR)
+================================================================================
+
+1. Unificar success/claim URL a https://novahodos.com/claim
+   y archivar payment links legacy.
+
+2. Empujar website a un remote GitHub;
+   tratar ami_engine como canonico unico.
+
+3. Confirmar oferta Play freetrial14 activa en ambos productos
+   y alinear copy.
+
+4. Anadir spend limit + billing email en Railway;
+   revisar facturas Vercel/RC en sus dashboards.
+
+5. Restaurar assets de Experience o quitar el bloque roto.
+
+6. Planear migracion Postgres cuando haya primeros paid users.
+
+================================================================================
+LIMITES DE ESTA AUDITORIA
+================================================================================
+
+- No se modifico codigo.
+- No se accedio a Railway billing UI.
+- No se pudo leer factura RevenueCat (falta scope account:billing:read).
+- GitHub CLI no estaba instalado en la maquina de auditoria.
+- Notificaciones no leidas de Play Console no se abrieron una por una.
+
+Documento generado 5 agosto 2026 - solo lectura - AMI / NOVAHODOS

@@ -1,0 +1,14 @@
+---
+description: Re-auditoría AFAI5 de P1–P4; especial foco P3 payment links y alternativas sin Stripe write. Reportar antes de tocar.
+alwaysApply: true
+---
+
+# Re-auditoría AFAI5 — P1–P4 (foco P3)
+
+Vuelve a auditar los 4 puntos con AFAI5.
+Especialmente el P3 — los payment links.
+
+¿Hay alguna forma de corregir el redirect de los payment links sin necesitar permiso write en la API de Stripe?
+¿Se puede hacer desde el código, desde el webhook, o hay otra ruta que no se exploró antes?
+
+**Reporta antes de tocar nada.**

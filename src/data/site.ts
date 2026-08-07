@@ -97,7 +97,7 @@ export const footerItems: Array<{ key: keyof typeof copy.en.footer; href: string
   { key: 'legal', href: '/legal' },
   { key: 'privacy', href: '/privacy' },
   { key: 'terms', href: '/legal#terms' },
-  { key: 'disclaimer', href: '/legal#use-boundaries' },
+  { key: 'disclaimer', href: '/legal#health-disclaimer' },
   { key: 'consent', href: '/legal#data-consent' },
   { key: 'pricing', href: '/pricing' },
   { key: 'faq', href: '/faq' },
