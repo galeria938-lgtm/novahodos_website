@@ -1,0 +1,103 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { site } from '@data/site';
+
+const deleteAccountUrl = 'https://novahodos.com/delete-account';
+const supportEmail = site.email.support;
+---
+<BaseLayout
+  title="Privacidade"
+  description="Como a AMI e a NOVAHODOS tratam dados pessoais e de saúde, retenção e exclusão de conta."
+  lang="pt"
+  canonical="/pt/privacy"
+>
+  <section class="section hero compact-hero">
+    <p class="eyebrow">Privacidade</p>
+    <h1>Como a AMI trata os seus dados.</h1>
+    <p class="lede">
+      A AMI pode guardar dados no navegador e, se criar conta ou sincronizar, também na base AMI para restauração entre dispositivos.
+      Os dados servem só para navegação metabólica pessoal.
+    </p>
+    <div class="actions">
+      <a class="button" href="#delete-account">Excluir conta</a>
+      <a class="button secondary" href="/pt/legal">Resumo legal</a>
+    </div>
+  </section>
+
+  <section class="section stack">
+    <article id="data-collected" class="card">
+      <p class="eyebrow">Dados recolhidos</p>
+      <h2>O que a AMI pode processar</h2>
+      <p>
+        A AMI pode processar: perfil (idade, sexo, peso, cintura, altura, objetivo), sessões de jejum, labs/biomarcadores que introduz,
+        sinais diários, XP, plano ativo e estado de sincronização.
+      </p>
+      <p>
+        Labs opcionais e sinais próximos à saúde exigem consentimento explícito e devem ser tratados como dados pessoais sensíveis.
+      </p>
+    </article>
+    <article id="how-we-use" class="card">
+      <p class="eyebrow">Utilização</p>
+      <h2>Como usamos os dados</h2>
+      <p>
+        Os seus dados apoiam a navegação metabólica: estimativas de rota, coach diário, segurança do jejum e continuidade entre dispositivos.
+        Não vendemos dados a terceiros nem os usamos para publicidade de terceiros.
+      </p>
+    </article>
+    <article id="sync" class="card">
+      <p class="eyebrow">Sincronização</p>
+      <h2>Conta e cópias no dispositivo</h2>
+      <p>
+        A conta permite restaurar dados. Sem sincronização, o navegador pode continuar a ser a cópia principal.
+      </p>
+    </article>
+    <article id="retention" class="card">
+      <p class="eyebrow">Retenção</p>
+      <h2>Durante quanto tempo guardamos</h2>
+      <p>
+        Enquanto a conta existir, guardamos o necessário para a trajetória e a faturação.
+        Após exclusão da conta removemos e-mail, palavra-passe, dados clínicos identificáveis, sessões, plano e a cópia local neste dispositivo.
+        As faturas de pagamento conservam-se por obrigação fiscal; dados clínicos desidentificados podem conservar-se para investigação sem ligação a si.
+      </p>
+    </article>
+    <article id="delete-account" class="card highlight">
+      <p class="eyebrow">Excluir conta</p>
+      <h2>Exclua a conta e os seus dados</h2>
+      <p>
+        Pode excluir a conta AMI nas Definições da app ou na web sem instalar a app.
+        A exclusão é imediata e irreversível. Se tiver assinatura ativa, ela é cancelada nesse momento.
+      </p>
+      <p>
+        Fluxo de exclusão:
+        <a class="email-link" href={deleteAccountUrl}>{deleteAccountUrl}</a>
+      </p>
+      <p>
+        Se perdeu o acesso à palavra-passe, escreva para
+        <a class="email-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+        a partir do e-mail da conta; exclusão em até 30 dias.
+      </p>
+      <div class="actions">
+        <a class="button" href={deleteAccountUrl}>Ir a excluir conta</a>
+      </div>
+    </article>
+    <article id="limits" class="card">
+      <p class="eyebrow">Limites</p>
+      <h2>Limite do produto</h2>
+      <p>
+        Este beta não deve ser apresentado como dispositivo médico regulado ou sistema clínico certificado.
+        A AMI não diagnostica, previne, trata, cura ou mitiga doenças.
+      </p>
+    </article>
+    <article id="contact" class="card">
+      <p class="eyebrow">Contacto</p>
+      <h2>Contacto de privacidade</h2>
+      <p>
+        Responsável: NOVAHODOS LLC.
+        Questões de privacidade:
+        <a class="email-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+        ou
+        <a class="email-link" href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

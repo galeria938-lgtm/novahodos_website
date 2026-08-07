@@ -1,0 +1,103 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { site } from '@data/site';
+
+const deleteAccountUrl = 'https://novahodos.com/delete-account';
+const supportEmail = site.email.support;
+---
+<BaseLayout
+  title="Privacy"
+  description="Come AMI e NOVAHODOS gestiscono dati personali e di salute, conservazione ed eliminazione dell’account."
+  lang="it"
+  canonical="/it/privacy"
+>
+  <section class="section hero compact-hero">
+    <p class="eyebrow">Privacy</p>
+    <h1>Come AMI gestisce i tuoi dati.</h1>
+    <p class="lede">
+      AMI può salvare dati nel browser e, se crei un account o sincronizzi, anche nel database AMI per il ripristino tra dispositivi.
+      I dati servono solo alla navigazione metabolica personale.
+    </p>
+    <div class="actions">
+      <a class="button" href="#delete-account">Elimina account</a>
+      <a class="button secondary" href="/it/legal">Panoramica legale</a>
+    </div>
+  </section>
+
+  <section class="section stack">
+    <article id="data-collected" class="card">
+      <p class="eyebrow">Dati raccolti</p>
+      <h2>Cosa AMI può elaborare</h2>
+      <p>
+        AMI può elaborare: profilo (età, sesso, peso, vita, altezza, obiettivo), sessioni di digiuno, esami/biomarcatori che inserisci,
+        segnali giornalieri, XP, piano attivo e stato di sincronizzazione.
+      </p>
+      <p>
+        Esami opzionali e segnali vicini alla salute richiedono consenso esplicito e vanno trattati come dati personali sensibili.
+      </p>
+    </article>
+    <article id="how-we-use" class="card">
+      <p class="eyebrow">Uso</p>
+      <h2>Come usiamo i dati</h2>
+      <p>
+        I tuoi dati supportano la navigazione metabolica: stime di rotta, coaching quotidiano, sicurezza del digiuno e continuità tra dispositivi.
+        Non vendiamo i dati a terzi né li usiamo per pubblicità di terzi.
+      </p>
+    </article>
+    <article id="sync" class="card">
+      <p class="eyebrow">Sincronizzazione</p>
+      <h2>Account e copie sul dispositivo</h2>
+      <p>
+        L’account consente di ripristinare i dati. Senza sincronizzazione, il browser può restare la copia principale.
+      </p>
+    </article>
+    <article id="retention" class="card">
+      <p class="eyebrow">Conservazione</p>
+      <h2>Per quanto tempo li conserviamo</h2>
+      <p>
+        Finché l’account esiste, conserviamo ciò che serve alla traiettoria e alla fatturazione.
+        Dopo l’eliminazione rimuoviamo email, password, dati clinici identificabili, sessioni, piano e la copia locale su questo dispositivo.
+        Le fatture di pagamento restano per obbligo fiscale; dati clinici de-identificati possono restare per ricerca senza legame con te.
+      </p>
+    </article>
+    <article id="delete-account" class="card highlight">
+      <p class="eyebrow">Elimina account</p>
+      <h2>Elimina account e dati</h2>
+      <p>
+        Puoi eliminare l’account AMI dalle Impostazioni nell’app, oppure sul web senza installare l’app.
+        L’eliminazione è immediata e irreversibile. Se hai un abbonamento attivo, viene disdetto nello stesso momento.
+      </p>
+      <p>
+        Flusso di eliminazione:
+        <a class="email-link" href={deleteAccountUrl}>{deleteAccountUrl}</a>
+      </p>
+      <p>
+        Se hai perso la password, scrivi a
+        <a class="email-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+        dall’email dell’account; eliminazione entro 30 giorni.
+      </p>
+      <div class="actions">
+        <a class="button" href={deleteAccountUrl}>Vai a elimina account</a>
+      </div>
+    </article>
+    <article id="limits" class="card">
+      <p class="eyebrow">Limiti</p>
+      <h2>Perimetro del prodotto</h2>
+      <p>
+        Questa beta non deve essere presentata come dispositivo medico regolamentato o sistema clinico certificato.
+        AMI non diagnostica, previene, tratta, cura o mitiga malattie.
+      </p>
+    </article>
+    <article id="contact" class="card">
+      <p class="eyebrow">Contatto</p>
+      <h2>Contatto privacy</h2>
+      <p>
+        Titolare: NOVAHODOS LLC.
+        Domande sulla privacy:
+        <a class="email-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+        o
+        <a class="email-link" href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

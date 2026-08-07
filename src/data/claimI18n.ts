@@ -26,6 +26,7 @@ export type ClaimCopy = {
   activateFail: string;
   emailExists: string;
   playConflict: string;
+  loginLockout: string;
   planNav: string;
   planCal: string;
 };
@@ -55,6 +56,7 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     activateFail: 'No se pudo activar AMI.',
     emailExists: 'Este correo ya tiene una cuenta AMI. Escribe la contraseña de esa cuenta para activar tu plan.',
     playConflict: 'Esta cuenta ya tiene una suscripción activa en Google Play. No se puede activar otro plan con Stripe.',
+    loginLockout: 'Demasiados intentos con contraseña incorrecta. Espera unos minutos e inténtalo de nuevo.',
     planNav: 'Navegación ($19)',
     planCal: 'Calibración de Precisión ($49)',
   },
@@ -82,6 +84,7 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     activateFail: 'Could not activate AMI.',
     emailExists: 'This email already has an AMI account. Enter that account\u2019s password to activate your plan.',
     playConflict: 'This account already has an active Google Play subscription. Another Stripe plan cannot be activated.',
+    loginLockout: 'Too many incorrect password attempts. Wait a few minutes and try again.',
     planNav: 'Navigation ($19)',
     planCal: 'Precision Calibration ($49)',
   },
@@ -109,6 +112,7 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     activateFail: 'Não foi possível ativar o AMI.',
     emailExists: 'Este e-mail já tem uma conta AMI. Digite a senha dessa conta para ativar seu plano.',
     playConflict: 'Esta conta já tem uma assinatura ativa no Google Play. Não é possível ativar outro plano com Stripe.',
+    loginLockout: 'Muitas tentativas com senha incorreta. Espere alguns minutos e tente de novo.',
     planNav: 'Navegação ($19)',
     planCal: 'Calibração de Precisão ($49)',
   },
@@ -136,6 +140,7 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     activateFail: 'Impossible d’activer AMI.',
     emailExists: 'Cet e-mail a déjà un compte AMI. Saisissez le mot de passe de ce compte pour activer votre offre.',
     playConflict: 'Ce compte a déjà un abonnement Google Play actif. Un autre forfait Stripe ne peut pas être activé.',
+    loginLockout: 'Trop de tentatives avec un mauvais mot de passe. Attendez quelques minutes et réessayez.',
     planNav: 'Navigation ($19)',
     planCal: 'Calibration de précision ($49)',
   },
@@ -163,6 +168,7 @@ export const claimCopy: Record<ClaimLocale, ClaimCopy> = {
     activateFail: 'Impossibile attivare AMI.',
     emailExists: 'Questa email ha già un account AMI. Inserisci la password di quell\u2019account per attivare il piano.',
     playConflict: 'Questo account ha già un abbonamento attivo su Google Play. Non si può attivare un altro piano con Stripe.',
+    loginLockout: 'Troppi tentativi con password errata. Attendi qualche minuto e riprova.',
     planNav: 'Navigazione ($19)',
     planCal: 'Calibrazione di precisione ($49)',
   },

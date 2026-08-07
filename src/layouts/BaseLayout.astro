@@ -15,8 +15,8 @@ const canonicalUrl = new URL(canonical, site.url).toString();
 const path = Astro.url.pathname;
 const partialLocales = ['pt', 'fr', 'it'] as const;
 const isPartialLocale = (partialLocales as readonly string[]).includes(lang);
-// Localized tree for pt/fr/it: /ami, /faq, /pricing, /claim. Everything else → EN.
-const PARTIAL_LOCALIZED = new Set(['/ami', '/faq', '/pricing', '/claim']);
+// Localized tree for pt/fr/it: product + claim + legal/privacy.
+const PARTIAL_LOCALIZED = new Set(['/ami', '/faq', '/pricing', '/claim', '/privacy', '/legal']);
 
 const normalizePath = (p: string) => {
   if (p.length > 1 && p.endsWith('/')) return p.slice(0, -1);
@@ -33,7 +33,9 @@ const withLocalePrefix = (locale: string, href: string) => {
   if (h === '/faq') return `/${locale}/faq`;
   if (h === '/pricing') return `/${locale}/pricing`;
   if (h === '/claim' || h.startsWith('/claim')) return `/${locale}/claim`;
-  // how-it-works / science / experience / legal / contact stay on EN.
+  if (h === '/privacy' || h.startsWith('/privacy')) return `/${locale}/privacy`;
+  if (h === '/legal' || h.startsWith('/legal')) return `/${locale}/legal`;
+  // how-it-works / science / experience / contact stay on EN for partial locales.
   return h;
 };
 

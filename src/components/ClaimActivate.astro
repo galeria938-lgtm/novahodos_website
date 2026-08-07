@@ -21,6 +21,7 @@ const t = claimCopy[locale];
   data-msg-activate={t.activateFail}
   data-msg-email-exists={t.emailExists}
   data-msg-play-conflict={t.playConflict}
+  data-msg-login-lockout={t.loginLockout}
   data-msg-busy={t.busy}
   data-msg-submit={t.submit}
   data-plan-nav={t.planNav}
@@ -87,6 +88,7 @@ const t = claimCopy[locale];
       activate: root.dataset.msgActivate || '',
       emailExists: root.dataset.msgEmailExists || '',
       playConflict: root.dataset.msgPlayConflict || '',
+      loginLockout: root.dataset.msgLoginLockout || '',
       busy: root.dataset.msgBusy || '',
       submit: root.dataset.msgSubmit || '',
       planNav: root.dataset.planNav || 'Navigation ($19)',
@@ -160,6 +162,9 @@ const t = claimCopy[locale];
           }
           if (detail === 'billing_provider_conflict_google_play') {
             throw new Error(msg.playConflict || msg.activate);
+          }
+          if (detail === 'claim_login_lockout' || response.status === 429) {
+            throw new Error(msg.loginLockout || msg.activate);
           }
           throw new Error(detail || msg.activate);
         }

@@ -1,0 +1,103 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { site } from '@data/site';
+
+const deleteAccountUrl = 'https://novahodos.com/delete-account';
+const supportEmail = site.email.support;
+---
+<BaseLayout
+  title="Confidentialité"
+  description="Comment AMI et NOVAHODOS traitent les données personnelles et de santé, la conservation et la suppression du compte."
+  lang="fr"
+  canonical="/fr/privacy"
+>
+  <section class="section hero compact-hero">
+    <p class="eyebrow">Confidentialité</p>
+    <h1>Comment AMI traite vos données.</h1>
+    <p class="lede">
+      AMI peut stocker des données dans le navigateur et, si vous créez un compte ou synchronisez, aussi dans la base AMI pour la restauration multi-appareils.
+      Les données servent uniquement à la navigation métabolique personnelle.
+    </p>
+    <div class="actions">
+      <a class="button" href="#delete-account">Supprimer le compte</a>
+      <a class="button secondary" href="/fr/legal">Aperçu légal</a>
+    </div>
+  </section>
+
+  <section class="section stack">
+    <article id="data-collected" class="card">
+      <p class="eyebrow">Données collectées</p>
+      <h2>Ce qu’AMI peut traiter</h2>
+      <p>
+        AMI peut traiter : profil (âge, sexe, poids, tour de taille, taille, objectif), sessions de jeûne, analyses/biomarqueurs que vous saisissez,
+        signaux quotidiens, XP, forfait actif et état de synchronisation.
+      </p>
+      <p>
+        Les analyses optionnelles et signaux proches de la santé exigent un consentement explicite et doivent être traités comme des données personnelles sensibles.
+      </p>
+    </article>
+    <article id="how-we-use" class="card">
+      <p class="eyebrow">Utilisation</p>
+      <h2>Comment nous utilisons les données</h2>
+      <p>
+        Vos données soutiennent la navigation métabolique : estimations de route, coaching quotidien, sécurité du jeûne et continuité entre appareils.
+        Nous ne vendons pas vos données à des tiers et ne les utilisons pas pour de la publicité tierce.
+      </p>
+    </article>
+    <article id="sync" class="card">
+      <p class="eyebrow">Synchronisation</p>
+      <h2>Compte et copies sur l’appareil</h2>
+      <p>
+        Le compte permet de restaurer les données. Sans synchronisation, le navigateur peut rester la copie principale.
+      </p>
+    </article>
+    <article id="retention" class="card">
+      <p class="eyebrow">Conservation</p>
+      <h2>Durée de conservation</h2>
+      <p>
+        Tant que le compte existe, nous conservons ce qui est nécessaire à la trajectoire et à la facturation.
+        Après suppression du compte nous retirons e-mail, mot de passe, données cliniques identifiables, sessions, forfait et la copie locale sur cet appareil.
+        Les factures de paiement sont conservées selon la loi fiscale ; des données cliniques anonymisées peuvent être conservées pour la recherche sans lien avec vous.
+      </p>
+    </article>
+    <article id="delete-account" class="card highlight">
+      <p class="eyebrow">Supprimer le compte</p>
+      <h2>Supprimez votre compte et vos données</h2>
+      <p>
+        Vous pouvez supprimer votre compte AMI depuis Paramètres dans l’appli, ou sur le web sans installer l’appli.
+        La suppression est immédiate et irréversible. Un abonnement actif est résilié au même moment.
+      </p>
+      <p>
+        Flux de suppression :
+        <a class="email-link" href={deleteAccountUrl}>{deleteAccountUrl}</a>
+      </p>
+      <p>
+        Si vous avez perdu l’accès au mot de passe, écrivez à
+        <a class="email-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+        depuis l’e-mail du compte ; suppression sous 30 jours.
+      </p>
+      <div class="actions">
+        <a class="button" href={deleteAccountUrl}>Aller à la suppression</a>
+      </div>
+    </article>
+    <article id="limits" class="card">
+      <p class="eyebrow">Limites</p>
+      <h2>Périmètre du produit</h2>
+      <p>
+        Cette bêta ne doit pas être présentée comme un dispositif médical réglementé ou un système clinique certifié.
+        AMI ne diagnostique, prévient, traite, guérit ni n’atténue aucune maladie.
+      </p>
+    </article>
+    <article id="contact" class="card">
+      <p class="eyebrow">Contact</p>
+      <h2>Contact confidentialité</h2>
+      <p>
+        Responsable : NOVAHODOS LLC.
+        Questions de confidentialité :
+        <a class="email-link" href={`mailto:${supportEmail}`}>{supportEmail}</a>
+        ou
+        <a class="email-link" href={`mailto:${site.email.privacy}`}>{site.email.privacy}</a>.
+      </p>
+    </article>
+  </section>
+</BaseLayout>

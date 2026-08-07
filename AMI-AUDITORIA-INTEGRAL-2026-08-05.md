@@ -150,12 +150,12 @@ El clone `ami-engine` es **stale**; no usarlo.
 |-----|----------|---------|
 | Alta | Claim split: sitio vs ami-app-tan (payment links) | Usuarios post-pago aterrizan en sitios distintos |
 | Alta | Website sin remote git | Sin fuente de verdad remota del canal de ventas |
-| Media | SQLite identity en Railway | Backup/escala; riesgo de pérdida vs Postgres |
+| Media | SQLite identity en Railway (activo; Postgres stub se rechaza al boot) | Backup/escala; migración Postgres = trabajo futuro |
 | Media | Imágenes Experience ausentes | Debilita página de confianza pre-compra |
-| Media | 6 payment links activos (legado) | Links viejos pueden tener tax/métodos distintos |
+| Media | ~~6 payment links activos~~ → **2 activos** (`$19`/`$49` trial 14d → novahodos.com/claim); legado archivado | Verificación live 2026-08-07 |
 | Media | Checkout sessions abiertas sin completar | Tráfico de prueba; sin conversiones aún |
-| Baja | Claim UI solo español | Fricción EN post-Stripe |
-| Baja | RC API sin trial_duration en producto | Operadores pueden creer que no hay trial Play |
+| Baja | ~~Claim UI solo español~~ → **5 idiomas** (`es/en/pt/fr/it`) | Claim nativo en novahodos.com |
+| Baja | RC API sin trial_duration en producto | Operadores pueden creer que no hay trial Play (offer Play `freetrial14`) |
 | OK | Políticas Play limpias + package/IDs alineados | Listo para distribución |
 
 ---
