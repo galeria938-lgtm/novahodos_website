@@ -22,6 +22,7 @@ const t = claimCopy[locale];
   data-msg-email-exists={t.emailExists}
   data-msg-play-conflict={t.playConflict}
   data-msg-login-lockout={t.loginLockout}
+  data-msg-already-used={t.alreadyUsed}
   data-msg-busy={t.busy}
   data-msg-submit={t.submit}
   data-plan-nav={t.planNav}
@@ -89,6 +90,7 @@ const t = claimCopy[locale];
       emailExists: root.dataset.msgEmailExists || '',
       playConflict: root.dataset.msgPlayConflict || '',
       loginLockout: root.dataset.msgLoginLockout || '',
+      alreadyUsed: root.dataset.msgAlreadyUsed || '',
       busy: root.dataset.msgBusy || '',
       submit: root.dataset.msgSubmit || '',
       planNav: root.dataset.planNav || 'Navigation ($19)',
@@ -166,20 +168,34 @@ const t = claimCopy[locale];
           if (detail === 'claim_login_lockout' || response.status === 429) {
             throw new Error(msg.loginLockout || msg.activate);
           }
+          if (detail === 'claim_session_already_used') {
+            throw new Error(msg.alreadyUsed || msg.activate);
+          }
           throw new Error(detail || msg.activate);
         }
-        // Session handoff: pass the account token to the product app via URL
-        // fragment (never sent to any server) so "Open web" arrives logged in.
+        // W09: prefer one-time handoff_code (no long-lived token in URL).
+        // Legacy #token= fragment still works in the app (cleared after read, W08).
         const openWeb = root.querySelector<HTMLAnchorElement>('[data-open-web]');
-        if (openWeb && body.account_token) {
+        if (openWeb) {
           const base = (openWeb.getAttribute('href') || '').replace(/\/+$/, '');
-          const handoff = new URLSearchParams({
-            token: String(body.account_token),
-            plan: String(body.plan_key || ''),
-            status: String(body.plan_status || 'active'),
-            lang: root.dataset.locale || 'es',
-          });
-          openWeb.href = `${base}/claim#${handoff.toString()}`;
+          const lang = root.dataset.locale || 'es';
+          if (body.handoff_code) {
+            const qs = new URLSearchParams({
+              code: String(body.handoff_code),
+              plan: String(body.plan_key || ''),
+              status: String(body.plan_status || 'active'),
+              lang,
+            });
+            openWeb.href = `${base}/claim?${qs.toString()}`;
+          } else if (body.account_token) {
+            const handoff = new URLSearchParams({
+              token: String(body.account_token),
+              plan: String(body.plan_key || ''),
+              status: String(body.plan_status || 'active'),
+              lang,
+            });
+            openWeb.href = `${base}/claim#${handoff.toString()}`;
+          }
         }
         form.setAttribute('hidden', '');
         if (preview) preview.setAttribute('hidden', '');

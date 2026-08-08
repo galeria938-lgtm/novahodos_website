@@ -9,7 +9,7 @@ export const site = {
   primaryCta: 'Start 14-day free trial',
   secondaryCta: 'How AMI Works',
   playStoreUrl: 'https://play.google.com/store/apps/details?id=com.novahodos.ami',
-  androidApkUrl: '/downloads/AMI-Android-Direct-1.0.8.apk',
+  androidApkUrl: '/downloads/AMI-Android-Direct-1.0.9.apk',
   checkoutUrl: '/pricing',
   billingApiUrl: 'https://amiengine-production.up.railway.app',
   webAppUrl: 'https://ami-app-tan.vercel.app',
